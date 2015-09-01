@@ -1,0 +1,399 @@
+% senior_thesis-proposal.tex
+% Gregory M. Kapfhammer
+% CMPSC 580, Spring 2013
+%
+% Revised by R. Roos
+% Sep 2013
+%
+% This document provides a sample senior thesis proposal template for use
+% by students in Allegheny's CS and Applied Computing programs.
+%
+%   *******************************************************************
+%   * LOOK FOR BLOCK COMMENTS SUCH AS THIS ONE FOR AN EXPLANATION OF  *
+%   * THIS DOCUMENT AND HOW TO MODIFY IT FOR YOUR OWN PROPOSAL!       *
+%   *                                                                 *
+%   * ANY LINE BEGINNING WITH A "%" IS A LATEX COMMENT AND IS IGNORED *
+%   * BY THE LATEX PROCESSOR. YOU ARE ENCOURAGED TO COMMENT YOUR OWN  *
+%   * LATEX CODE.                                                     *
+%   *******************************************************************
+
+%   ********************************************************************
+%   * THE FIRST SECTION OF THE LATEX FILE IS THE "PREAMBLE." IT        *
+%   * INSTRUCTS LATEX TO IMPORT SPECIAL PACKAGES FOR THINGS LIKE       *
+%   * INCLUDING FIGURES, DOUBLE-SPACING, COLORED TEXT, ETC.            *
+%   * DEPENDING ON YOUR NEEDS, YOU MAY FIND IT NECESSARY TO USE PACK-  *
+%   * AGES THAT ARE NOT INCLUDED IN THIS TEMPLATE. SIMPLY IMITATE THE  *
+%   * "\usepackage{...}" COMMANDS SHOWN BELOW.                         *
+%   ********************************************************************
+
+%   ********************************************************************
+%   * BEGINNING OF PREAMBLE:                                           *
+%   ********************************************************************
+\documentclass[11pt]{article}
+
+%% -- Listings  & Pseudocode ------------------------------------------
+\usepackage{listings}
+\usepackage{fancyvrb}
+\usepackage{syntax}
+\usepackage{minted}
+\usepackage{algorithmic}
+\usepackage{algorithm}
+
+\usemintedstyle{trac}
+
+%% -- Math ------------------------------------------------------------
+\usepackage{amsmath,amssymb}
+
+%% -- Typesetting -----------------------------------------------------
+\usepackage{fancyhdr}
+\usepackage[nottoc,numbib]{tocbibind}
+\usepackage{booktabs}
+
+\usepackage[T1]{fontenc}
+\usepackage{mathptmx}
+\topmargin 0.0in
+\setlength{\textwidth} {420pt}
+\setlength{\textheight} {620pt} 
+\setlength{\oddsidemargin} {20pt}
+\setlength{\marginparwidth} {72in}
+
+%% -- Referencing -------------------------------------------------------
+\usepackage{hyperref}
+\usepackage{cleveref}
+\usepackage[
+    backend=bibtex,
+    style=numeric,
+    sortcites=true,
+    sorting=nty,
+    backref,
+    natbib,
+    hyperref
+]{biblatex}
+\bibliography{final}
+
+
+
+%% -- TikZ -------------------------------------------------------------
+\usepackage{tikz}
+\usetikzlibrary{shapes,arrows,shadows,positioning}
+
+%% -- Definitions ------------------------------------------------------
+\usepackage[amsthm,hyperref]{ntheorem}
+
+\theoremstyle{break}
+\theoremheaderfont{\bf}\theorembodyfont{\itshape} 
+
+\theorempreskip{\topsep}
+\theorempostskip{\topsep}
+\theoremseparator{:}
+\newtheorem{defn}{Definition}
+
+
+%   ********************************************************************
+%   * Many of the commands below were simply copied over from an older *
+%   * version of the proposal template; you can just leave them as     *
+%   * they are (or you can delve into the TeX/LaTeX documentation      *
+%   * and figure out what they do). Otherwise, jump ahead to the next  *
+%   * block of comments, where you will enter title, abstract, etc.    *
+%   ********************************************************************
+
+\usepackage{url}
+\usepackage{graphicx}
+
+% set it so that subsubsections have numbers and they
+% are displayed in the TOC (maybe hard to read, might want to disable)
+
+\setcounter{secnumdepth}{3}
+\setcounter{tocdepth}{3}
+
+% define widow protection
+
+\def\widow#1{\vskip #1\vbadness10000\penalty-200\vskip-#1}
+
+\clubpenalty=10000  % Don't allow orphans
+\widowpenalty=10000 % Don't allow widows
+
+% this should give me the ability to use some math symbols that 
+% were available by default in standard latex (i.e. \Box)
+
+\usepackage{latexsym}
+
+% define a little section heading that doesn't go with any number
+
+\def\littlesection#1{
+\widow{2cm}
+\vskip 0.5cm
+\noindent{\bf #1}
+\vskip 0.0001cm 
+}
+
+\pagestyle{fancyplain}
+
+\newcommand{\tstamp}{\today}   
+\renewcommand{\sectionmark}[1]{\markright{#1}}
+\lhead[\Section \thesection]            {\scshape \fancyplain{}{\rightmark}}
+\chead[\fancyplain{}{}]                 {\fancyplain{}{}}
+\rhead[\fancyplain{}{\rightmark}]       {\fancyplain{}{\thepage}}
+\cfoot[\fancyplain{\thepage}{}]         {\fancyplain{\thepage}{}}
+
+\newlength{\myVSpace}% the height of the box
+\setlength{\myVSpace}{1ex}% the default, 
+\newcommand\xstrut{\raisebox{-.5\myVSpace}% symmetric behaviour, 
+  {\rule{0pt}{\myVSpace}}%
+}
+
+% leave things with no spacing extra spacing in the final version of the paper
+\renewcommand{\baselinestretch}{1.0}    % must go before the begin of doc
+
+% suppress the use of indentation for a paragraph
+
+\setlength{\parindent}{0.0in}
+\setlength{\parskip}{0.1in}
+
+\begin{document}
+
+
+% handle widows appropriately
+\def\widow#1{\vskip #1\vbadness10000\penalty-200\vskip-#1}
+
+% build the title section
+
+\makeatletter
+
+\def\maketitle{%
+  %\null
+  \thispagestyle{empty}%
+  %\vfill
+  \begin{center}%\leavevmode
+    %\normalfont
+    {\Huge \@title\par}%
+    %\hrulefill\par
+    {\normalsize \@author\par}%
+    \vskip .4in
+%    {\Large \@date\par}%
+  \end{center}%
+  %\vfill
+  %\null
+  %\cleardoublepage
+
+  }
+
+\makeatother
+
+\vspace*{-1.1in}
+\title{
+  Expression Languages for Systems Programming
+}
+
+% build the author section
+\author{
+        Hawk Weisman\\ 
+        Department of Computer Science\\
+        Allegheny College \\
+        {\tt weismanm@allegheny.edu}  \\  
+        \url{http://hawkweisman.me} \\  
+        \vspace*{.1in} \today \\ \vspace*{.1in}
+}
+
+\maketitle       % use the default title stuff
+
+% Default "abstract" environment is too small; customize one instead:
+\begin{center}
+\large\bf Abstract
+\vspace{-1em}  % Reduce space between header and the abstract
+\end{center}
+
+%   ********************************************************************
+%   * Here is the second place where you need to customize:            *
+%   * enter your abstract in the "quote" environment:                  *
+%   ********************************************************************
+
+\begin{quote}
+While programming languages researchers have produced a number of languages with various qualities that promote effective programming, such languages often may not be used for low-level systems programming. The automation of memory management through garbage collection often limits the use of many languages for systems programming tasks. This proposal outlines the development of a new language intended for systems programming, with a syntax inspired by that of the Lisp family of languages and providing methods of ensuring memory safety at compile-time rather than at runtime.
+\end{quote}
+
+%\vspace*{-.4in}
+\section{Introduction}
+\label{sec:introduction}
+\vspace*{-.1in}
+
+\textit{Systems programming} refers to the implementation of operating systems, device drivers, programming language standard libraries and runtime systems, and other types of software that provide services to other software rather than to the user~\cite{Narten:2003:SP:1074100.1074850,Shapiro:2006:PLC:1215995.1216004}. 
+
+\begin{defn}[Systems Programming]
+The branch of programming concerned with the implementation of operating systems, utilities, and libraries that provides services to other software rather than to a human user~\cite{Narten:2003:SP:1074100.1074850}.
+\end{defn}
+
+Although this area of programming may seem unglamorous, it is vital to all uses of computers, whether in industry, the sciences, or in the home. New advances in such systems and the continual process of improvement and maintenance of existing ones is necessary in order to continue to serve the ever increasing demands of computer applications.
+
+The programming languages community has, in recent years, produced a number of new programming languages, such as Haskell~\cite{jones2003haskell,hudak1992report}, Scala~\cite{odersky2004scala,odersky2004overview}, and others. These languages boast a number of qualities that support the fast and easy implementation of high-quality software, such as more expressive syntax and typing disciplines that uncover errors at compile-time. However, a majority of systems programming is still done in C~\cite{kernighan1988c}, a language which first appeared in 1972. C is plagued by safety issues and can be very difficult to program in, especially for novice programmers or those unfamiliar with its challenges~\cite{Shapiro:2006:PLC:1215995.1216004,Ray:2014:LSS:2635868.2635922,Bhattacharya:2011:APL:1985793.1985817}.
+
+Why, then, do systems programmers, who work in an area where safety and correctness is often vital, use such an old and difficult language almost exclusively? There are a number of reasons behind the systems programmer's hesitation to try more modern languages. Despite the rapid, ongoing increase in the capabilities of computing hardware, performance and efficiency in both time and space are still deeply important in systems code, as small drops in performance can have major impacts on the application software that relies on a system program~\cite{Shapiro:2006:PLC:1215995.1216004}. Applications programmers can often benefit from the use of slightly less efficient abstractions and structures if they compose well and are easily understood, but systems programmers have no such luxury.
+
+Some of the characteristics of modern programming languages, such as automatic memory management, dynamic typing, and higher levels of abstraction, which make applications programming easier can have an inverse effect on systems programming. Automatic memory management, as discussed in more detail in \Cref{subsec:gc}, is a particularly major issue. 
+
+This paper proposes the implementation of a new programming language suitable for some systems programming tasks. This new language attempts to reconcile the requirements necessary for lower-level systems programming with the safety and expressive power of modern functional programming languages. Influence is drawn from the consistent and elegant syntax of the Lisp family of programming languages (\Cref{subsec:lisp})) and from alternative memory management methods such as those used in the Rust programming language (\Cref{subsec:rust})~\cite{Matsakis:2014:RL:2663171.2663188}.
+
+\vspace*{-.1in}
+\section{Background}
+\label{sec:background}
+\vspace*{-.1in}
+
+\subsection{The Lisp Family of Programming Languages}\label{subsec:lisp}
+Lisp is a family of \textit{functional programming} languages characterized by the use of a form of prefix notation and a focus on singly-linked lists as a fundamental data structure~\cite{r6rs,sicp}.
+
+\begin{defn}[Functional Programming]
+A programming paradigm which models computation through the application of functions, or in which function application is the primary or the only control structure.
+\end{defn}
+
+Languages of the Lisp family are among the oldest computer programming languages still in use today, predated only by FORTRAN. There are a number of reasons behind Lisp's enduring popularity. Perhaps one of the most fascinating such property is that of \textit{homoiconicity}, the quality by which the textual structure of a program's source code is identical to the computer's internal representation of that program~\cite{vanderhart2010macros,sicp}.
+
+In contrast to C and languages with C-like syntax, Lisps are \textit{expression languages} rather than \textit{statement languages}. Where C-like languages consist of both statements, which correspond to an executable action, and expressions, which evaluate to some value, Lisp programs consist only of expressions. Thus, Alan Perlis' sardonic observation that ``[a] LISP programmer knows the value of everything, but the cost of nothing~\cite{Perlis:1982:SFE:947955.1083808}.'' 
+
+In Lisp, all language constructs take the same consistent form of the \textit{S-expression}, a parenthesized expression consisting of an operator and one or more operands, separated by spaces. 
+
+\begin{defn}[S-expression]
+A notation for describing nested list data structures, where each list is delimited by parenthesis characters and each list element is separated by spaces.
+\end{defn}
+
+The following Baukus-Naur Form describes a simple grammar for S-expressions:
+\begin{listing}[h]
+\begin{grammar}
+  <s-exp> ::= `(' <op> <exp> `)'
+
+  <exp> ::= <s-exp>  | <constant> | <exp> <exp> | $\varepsilon$
+
+  <op> ::= <language-function> | <user-function>
+\end{grammar}
+\end{listing}
+
+Do note that a number of symbols (i.e. those for constants and functions) are left undefined, as this grammar is not intended as a complete description of a language.
+
+For example, to sum two numbers, one would state:
+\mint{lisp}|(+ 1 1)|
+More complex concepts may be expressed just as easily with these S-expressions. Consider a conditional logic expression:
+\begin{minted}{lisp}
+(if (> a 0)
+  (+ a 1)
+  (- a 1)
+)
+\end{minted}
+This expression evaluates to the value of \mintinline{lisp}|a| + 1 if variable \mintinline{lisp}|a| is greater than zero, and \mintinline{lisp}|a| - 1 if it is not. 
+
+The \textit{Von Neumann architecture}, in which the same memory is used to store both data and instructions~\cite{von1993first}, is fundamental to the history of modern computing. By storing program code and data in the same consistent list structure and allowing programs to act easily on their own instructions~\cite{Smith:1984:RSL:800017.800513}, Lisp is something of a reinforcement of this fundamental design.
+
+This quality of homoiconicity has been observed to promote methods of thinking about code and its execution that can be beneficial to high-quality programming~\cite{sicp,raymond2003become}. Since the source code as understood by the programmer is structurally equivalent to the program as understood by the compiler or interpreter, there is less of a disconnect between person and machine~\cite{sicp}. The primary goal of programming language design, in this author's opinion, is to find a comfortable middle ground between two radically different forms of mind: that of the human programmer, whose mind is very small, very slow, and very good at abstract reasoning and at handling ambiguity; and that of the computer, whose mind is very large and fast, but must be given very precise instructions. Lisp's homoicionic syntax seems a good step towards this symbiosis.
+
+\subsection{Garbage Collection}\label{subsec:gc}
+
+Differing methods for memory management is one of the primary reasons that systems programmers refrain from using more modern programming languages. A majority of modern languages provide automatic memory management in the form of \textit{garbage collection}. C, on the other hand, requires the user to manage memory manually, by allocating it with \mintinline{c}|malloc()| and then deallocating it with \mintinline{c}|free()| when it is no longer needed.
+
+\begin{defn}[Garbage Collection]
+A form of automatic memory management which attempts to deallocate memory objects automatically at runtime, typically by tracking references to those objects.~\cite{Bartley:2003:GC:1074100.1074419,Dijkstra:1978:OGC:359642.359655}.
+\end{defn}
+
+Garbage-collected languages, such as Java, Scala, and Python, make the implementation of application software much easier by freeing programmers from having to concern themselves with the responsibility of manually allocating and deallocating memory. This reduces the cognitive load on the programmer and decreases the risk of memory leaks and dangling pointer bugs~\cite{Hertz:2005:QPG:1094811.1094836,Dijkstra:1978:OGC:359642.359655}. However, in order to deallocate the memory objects that are no longer in use, the program must first find these objects. This necessitates some form of analysis (e.g. \textit{tracing} or \textit{reference counting}) to determine which memory objects can be deallocated, which therefore requires a traversal of the program's memory space~\cite{Hertz:2005:QPG:1094811.1094836,Dijkstra:1978:OGC:359642.359655,Bartley:2003:GC:1074100.1074419}. 
+
+While a great deal of work has taken place in order to make garbage collection as fast and efficient as possible, the measurable costs associated with a garbage collector pass~\cite{Hertz:2005:QPG:1094811.1094836} are unavoidable. For application programmers, the benefits of garbage collection are worth the performance tradeoffs, but for systems programming, this is often not the case --- if a garbage collector pass interrupts a time-critical system component such as the OS scheduler, the performance of all programs running on the system is impacted. Furthermore, low-level systems components must often function with minimal support from a runtime infrastructure which provides features such as garbage collection, as they \textit{are} this infrastructure for other software.
+
+Received wisdom therefore holds forth that one cannot reconcile automatic memory management with the requirements of systems software, cursing the implementors of systems to rely on \mintinline{c}|malloc()| and \mintinline{c}|free()| forever.
+
+\subsection{Alternative Memory Management}
+ 
+While many would suggest that a programming language may have either manual memory management or garbage collection, there are, in fact, a number of additional options. 
+
+\begin{defn}[Stack Allocation]
+A method of memory management in which all memory allocation created within a scope such as a function are automatically deallocated when the flow of program execution exits that scope~\cite{Corry:2006:OSA:1133956.1133978,Hanson:1990:ESA:91556.91603}.
+\end{defn}
+
+In \textit{stack allocation}, all memory objects are allocated on a stack, with each level in the stack (called a \textit{stack frame or \textit{allocation record}}) corresponding to a scope or execution context, such as a function. When a scope is exited, all of the memory objects allocated in that scope are automatically deallocated. This is how most languages allocate parameters to function calls. When this approach is applied to all memory allocation, it provides the same guaranteed memory safety as garbage collection, but requires no additional work to be performed at runtime~\cite{Corry:2006:OSA:1133956.1133978,Hanson:1990:ESA:91556.91603}. However, allocating all data on the stack has the obvious flaw that there is no way to share data outside the stack frame in which it was created, placing significant constraints on the programmer and limiting the expressiveness of the language. 
+
+\label{subsec:rust}Rust, a new language intended for systems programming, introduces a unique solution for this issue by adding to the language a notion of \textit{ownership}. In Rust, a memory object is said to be `owned' by the scope in which it was allocated, placing it on that scope's stack frame. Rust then permits the owner of a memory object to either transfer ownership to another scope (called a `move') or to share `borrowed' references to that object. These borrowed pointers are lexically scoped, and may not be referenced after the object to which they point passes out of scope. Rust also differentiates between mutable and immutable borrows, permitting only one mutable borrow of an object at any point in time. This prevents issues related to concurrent modification. The Rust compiler includes a component called the \textit{borrow checker}, which performs analysis of borrowing and ownership at compile-time~\cite{Matsakis:2014:RL:2663171.2663188}. This system provides Rust programs with guaranteed memory safety, but does not require programmers to manually allocate and deallocate objects. Essentially, the borrow checker moves the overhead of performing analysis for automatic memory management from runtime to compile-time, adding a step to the compilation process but allowing the resultant binaries to run without garbage collection.
+
+\begin{defn}[Linear Allocation]
+A method of memory management in which each allocated memory object may be accessed only a single time. A linear type is produced once and consumed only once, always having a reference count of exactly 1~\cite{Baker:1992:LLL:142137.142162,hawblitzel2004low,Baker:1995:UVL:199818.199860}.
+\end{defn}
+
+\textit{Linear allocation} is a similar but more constrained approach. Linear types may be accessed only once over their lifetimes~\cite{Baker:1992:LLL:142137.142162,hawblitzel2004low,Baker:1995:UVL:199818.199860}. While this may initially seem unpleasantly limiting, we should take note of the fact that such a type, would therefore require no garbage collection~\cite{Baker:1992:LLL:142137.142162,Baker:1995:UVL:199818.199860}. In the papers \citetitle{Baker:1992:LLL:142137.142162} (\citeyear{Baker:1992:LLL:142137.142162}) and \citetitle{Baker:1995:UVL:199818.199860} (\citeyear{Baker:1995:UVL:199818.199860}), \citeauthor{Baker:1992:LLL:142137.142162} described a type system for programming languages with linear allocation which differentiates shared memory objects, which may be accessed outside of their parent scopes, from unshared objects. Once an object is made public, it may be used only once~\cite{Baker:1995:UVL:199818.199860,Baker:1992:LLL:142137.142162}. The similarities between Baker's linear types and Rust's ownership are obvious: both methods attempt to encode information about memory allocation in a language's type system and, in doing so, perform automatic memory management in the compiler rather than at runtime. 
+
+%\vspace*{-.1in}
+%\section{Related Work}
+%\label{sec:relatedwork}
+%\vspace*{-.1in}
+
+%   ********************************************************************
+%   * Enter the text of your related work section here.                *
+%   ********************************************************************
+
+
+
+\vspace*{-.2in}
+\section{Method of Approach}
+\label{sec:method}
+\vspace*{-.1in}
+
+I propose the creation of a new language intended for systems programming. Not unlike Rust, the new language would aim to fulfill a niche similar to that of C++, offering similar performance and low-level access to hardware, but providing some abstractions to ease programming. This new language would use the expression syntax of the Lisp family of languages, as described in \Cref{subsec:lisp}. S-expression syntax has a number of advantages. In addition to assisting programmers in understanding the compiler or interpreter's understanding of their code (through the concept of homoiconicity), the consistency of the syntax of S-expression based languages makes parsing fairly simple. Ease of parsing is of great advantage to the implementation of proof-of-concept or research programming languages, as developing a parser is a not insignificant portion of the workload of compiler implementation.
+
+Despite borrowing their S-expression syntax, the new language would not technically be a member of the Lisp family. In addition to the use of S-expressions, Lisps are generally characterized as being dynamically-typed interpreted languages. Since a primary goal of the new language's design is to perform memory management at compile-time, it would therefore have to be a compiled language. Furthermore, in order to permit reasoning about memory at compile-time, a change in typing discipline is also necessary, since the type of a value determines the amount of space that it occupies in memory.
+
+Additionally, there would be a need to introduce syntax for working with pointer types. Lisps typically do not provide a great deal of functionality for performing operations such as pointer arithmetic. In a systems programming language, methods of working on memory addresses at a low level are necessary. Furthermore, depending on the memory management method employed, there may additionally be a need to differentiate between types of references, as in Rust's borrow system. Methods of differentiating between nullable and non-nullable references, such as an Optional type, help to eliminate a common class of errors that occur in C.
+
+Designing the language's memory management method will require additional research and development. Lisp and Lisp-like programming languages are in some ways uniquely well-suited to scope-based methods of managing memory; Scheme~\cite{r6rs} (a Lisp variant) was one of the first lexically-scoped programming languages, and the S-expression syntax of Lisps make scopes explicit to the programmer. A system for memory management based on compile-time analysis of scopes seems possible. 
+
+The linear approach, as described by Baker, would be particularly simple to implement and embraces the functional programming philosophy of immutable data structures. However, a language based around immutability may be insufficiently low level to meet the needs of systems programmers, and the overhead of copying objects may be unacceptable in real-time programs such as an operating system kernel. A memory management model based on stack allocation seems to find a happy medium between safety, performance, and `closeness to the machine'. In order to make such a language expressive enough to be useable, a Rust-like system of ownership and lending seems necessary. Previous research~\cite{sobalvarro1988lifetime} suggests that lifetime analysis for Lisp programs is certainly possible.
+
+The name `Lisp' was originally an abbreviation for `LISt Processing', and the singly-linked list forms the core construct of all true Lisps. However, that data structure is oftentimes too high level for the needs of systems programmers. Therefore, robust syntax for working with arrays and algebraic data types must also be provided. Developing syntax to express the many new concepts introduced in the language in a manner that is unambiguous to the programmer and to the compiler, and that blends will with the S-expression syntax, may require some effort.
+
+\vspace*{-.2in}
+\section{Evaluation Strategy}
+\label{sec:evaluate}
+\vspace*{-.1in}
+
+Assessing and evaluating a new programming language with any level of rigor is a fairly daunting task. An exhaustive evaluation of any language is likely to require multiple independent research studies over a long period of time. Such a large-scale evaluation is also likely not possible unless a significant amount of software has been implemented in the language being investigated. However, since this proposal describes the creation of a new language, it is necessary to make at least a preliminary attempt to evaluate the language and determine if it fulfills its design goals.
+
+There are a number of methods by which the quality of a language may be assessed. Ideally, empirical studies would be performed to measure the quality of software implemented in the language being studied~\cite{Bhattacharya:2011:APL:1985793.1985817,Ray:2014:LSS:2635868.2635922}, the productivity of programmers working in that language~\cite{hudak1994haskell}, and the opinions or subjective experiences of those programmers. These studies may take the form of controlled experiments where programmers are asked to implement a specification in multiple languages~\cite{hudak1994haskell,Ray:2014:LSS:2635868.2635922}, studies which observe and compare existing open-source software~\cite{Ray:2014:LSS:2635868.2635922,Bhattacharya:2011:APL:1985793.1985817}, and studies which conduct surveys of the opinions of programmers regarding various languages~\cite{Ray:2014:LSS:2635868.2635922}.
+
+Additional difficulties arise when programming languages are being compared to one another. Without some form of comparison, it would be difficult to gain meaningful knowledge from any information gathered about a language, but significant threats to validity exist. When comparing software implemented in two languages, it is often challenging to determine if differences in quality are the result of the languages used, or of other artifacts specific to those pieces of software. If two software systems of comparable purpose are compared, the performance and reliability of those systems may differ as a result of the skill level of the programmers involved, the resources devoted to each project, the architecture and design of each implementation, the ages of the projects, differing design goals or objectives, and other factors not directly related to the choice of programming language. On the other hand, when a controlled experiment is used to assess programming languages, limitations in the experiment's scope may result in a failure to observe differences between the languages that may only emerge in large-scale projects or over long time periods. 
+
+As this research will concern the evaluation of a newly-implemented programming language rather than one which has existed for a long period of time, there is no existing corpus of software written in the language. Therefore, methods of assessment based on comparing existing software projects, such as the research conducted by \citeauthor{Bhattacharya:2011:APL:1985793.1985817}~\cite{Bhattacharya:2011:APL:1985793.1985817} and \citeauthor{Ray:2014:LSS:2635868.2635922}~\cite{Ray:2014:LSS:2635868.2635922}, are not possible. Instead, it will be necessary to perform small, experimental evaluations of the language. 
+
+In these experiments, individual programmers or teams would compete to implement a specification provided by the experimenters in the languages being compared. This experimental design is similar to the methodology used in the Naval Surface Warfare Center (NSWC) study described by \citeauthor{hudak1994haskell}~\cite{hudak1994haskell}. Once complete, each team's implementation will be assessed using metrics of software quality and ease of implementation. Additionally, the participants will be surveyed regarding their experiences.
+
+Due to time constraints, rather than requesting participants to develop complete implementations of systems software, the tasks given to experiment participants will concern the implementation of a software component, such as a data structure or module, for a common systems programming task. Since the goal of this research is to determine the new language's effectiveness in the systems programming space, primary comparison languages are C and C++. If developers experienced in other new languages intended for systems programming, such as Rust or Go, are interested to participate in the experiment, those languages will be compared as well. Ideally, multiple separate teams or individuals will produce implementations in each language under study, in order to reduce the threats to validity which arise from variation in the skills of each individual programmer.
+
+\subsection{Assessing Software Quality}
+Multiple metrics are available for determining the quality of software written in a programming language. Since this research is concerned with the assessment of a language intended for systems programming, a major focus should be placed on performance and reliability. It is also necessary to determine if the language is truly capable of the kind of low-level programming necessary to implement systems.
+
+Primary metrics of assessment for performance will include \textit{turnaround time}, as an assessment of temporal performance, and \textit{memory usage}, as an assessment of spatial performance. Both of these metrics are lower-is-better metrics.
+
+\begin{defn}[Turnaround Time]
+The time differential between the submission of a task and its completion.
+\[ t_{turnaround} = t_{completion} - t_{submission}\]
+\end{defn}
+
+Since a primary design goal of the new language proposed here is the reduction of errors introduced by manual memory management, the prevalence of memory leaks in each program will be assessed. This can be conducted using automated memory profiling tools such as \texttt{valgrind(1)}. A significant threat to validity exists here in that it is likely that memory leaks and other such errors often occur primarily in large or complex programs. In simple programs, manual memory management may pose less of a problem, as developers can easily track the small number of memory allocations necessary. Therefore, it will be necessary to ensure that the tasks proposed are sufficiently complex that there is a chance of memory management errors taking place.
+
+\subsection{Assessing Language Usability}
+In addition to encouraging the development of high-quality software, we would also want to believe that our language is as easy to use and to learn as possible. While usability is an inherently subjective quality, there are some metrics that provide insight into a language's friendliness to its users.
+
+In the NSWC study described by \citeauthor{hudak1994haskell}, information was collected on the number of lines of code necessary to implement a working program and on the amount of time taken to develop that program. If fewer lines of code are necessary to complete some task in one language than another, that language may be said to be more \textit{expressiveness}, a quality that is highly sought after by language designers. Similarly, if programmers using one language take less time to arrive at a working solution than others, it is possible that that language is easier to use.
+
+Additional assessment of programmer experiences may be conducted through the use of surveys. These would likely consist of Likert scale questions where programmers are asked to rate their agreement with statements, such as ``I found this language easy to use,'' ``I understood how the compiler would interpret my code,'' and ``This language was difficult to learn.'' Demographic information on the experiment participants, such as self-assessments of programming skill and experience, would also be collected.
+
+\vspace*{-.1in}
+\section{Conclusion}
+\label{sec:conclusion}
+\vspace*{-.1in}
+
+The programming language research community has, over the years, produced a great many advances in language technology. Many of the languages commonly used in the early days of programming as a discipline have been left behind in the mists of time --- nobody really uses ALGOL or Pascal these days, do they? Two language families, however, have refused to die: the Lisp family and the C family.
+
+Why have these two obstinate branches of the family tree of programming languages hung on to life so stubbornly? This author submits that the abiding popularity of Lisps is because there is something fundamentally valuable in the cognitive model of computation they provide, and respectfully reminds the reader that he is certainly not the first to do so~\cite{sicp,raymond2003become}. 
+
+C, on the other hand, seems to have stuck around not because it is good, but because it is a necessary evil~\cite{Shapiro:2006:PLC:1215995.1216004}. Systems programmers do not use C and its offspring because they find those languages pleasant and enjoyable to use; searching publically available source code archives for vile language of the reader's choice and analyzing the languages in which such words and phrases occur most frequently provides strong evidence of this fact\footnote{I invite the reader to partake of such an activity at their own digression}. The difficulty of programming in C, and the prevalence of errors in C programs have frequently been observed~\cite{Shapiro:2006:PLC:1215995.1216004,Bhattacharya:2011:APL:1985793.1985817,Ray:2014:LSS:2635868.2635922}, both by academic researchers and in the oral traditions of programmers. However, many of the features and qualities of more modern languages that make them easier and safer to program in limit their effectiveness for the sort of low-level programming which systems programmers are called upon to do. One primary example of this is garbage collection, which greatly reduces errors in memory management and frees programmers from having to worry about memory allocation, but also makes a language unsuitable for a large amount of systems programming tasks.
+
+In this proposal, we have evaluated a number of methods of ensuring memory safety without the use of garbage collection, and discussed how they may be applied to a Lisp-like programming language. Furthermore, we have considered other concerns necessary for systems programming in such a language. Finally, we have discussed how such a language might be implemented and methods for evaluating its effectiveness. While this new language may not replace C once and for all, continued research into new languages for systems programming is vital to the health of computing as a discipline, since systems software has a great impact on all applications of computing technology.
+
+\pagebreak
+\printbibliography
+
+\end{document}
+
