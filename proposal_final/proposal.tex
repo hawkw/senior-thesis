@@ -29,7 +29,7 @@
 %   ********************************************************************
 %   * BEGINNING OF PREAMBLE:                                           *
 %   ********************************************************************
-\documentclass[11pt]{article}
+\documentclass[11pt,draft]{article}
 
 %% -- Listings  & Pseudocode ------------------------------------------
 \usepackage{listings}
@@ -69,9 +69,7 @@
     natbib,
     hyperref
 ]{biblatex}
-\bibliography{final}
-
-
+\bibliography{final.bib}
 
 %% -- TikZ -------------------------------------------------------------
 \usepackage{tikz}
@@ -324,14 +322,12 @@ A method of memory management in which each allocated memory object may be acces
 %   * Enter the text of your related work section here.                *
 %   ********************************************************************
 
-
-
-\vspace*{-.2in}
+\vspace*{-.1in}
 \section{Method of Approach}
 \label{sec:method}
 \vspace*{-.1in}
 
-I propose the creation of a new language intended for systems programming, called Mnemosyne, after the Titaness who personified the concept of memory in ancient Greek mythology. Mnemosyne's primary goal is to be a safe, expressive functional programming language which is nonetheless suitable for high-performance and systems programming.
+I propose the creation of a new language intended for systems programming, called Mnemosyne, after the Titaness who personified the concept of memory in ancient Greek mythology. The primary goal of the Mnemosyne project is to create safe, expressive functional programming language which is nonetheless suitable for high-performance and systems programming.
 
 \subsection{Design Considerations}
 
@@ -346,6 +342,9 @@ Designing the language's memory management method will require additional resear
 The linear approach, as described by Baker~\cite{Baker:1992:LLL:142137.142162,Baker:1995:UVL:199818.199860} and \citeauthor{hawblitzel2004low}~\cite{hawblitzel2004low}, would be particularly simple to implement and embraces the functional programming philosophy of immutable data structures. However, a language based around immutability may be insufficiently low level to meet the needs of systems programmers, and the overhead of copying objects may be unacceptable in real-time programs such as an operating system kernel. A memory management model based on stack allocation seems to find a happy medium between safety, performance, and `closeness to the machine'. In order to make such a language expressive enough to be useable, a Rust-like system of ownership and lending seems necessary. Previous research~\cite{sobalvarro1988lifetime} suggests that lifetime analysis for Lisp programs is certainly possible.
 
 The name `Lisp' was originally an abbreviation for `LISt Processing', and the singly-linked list forms the core construct of all true Lisps. However, that data structure is oftentimes too high level for the needs of systems programmers. Therefore, robust syntax for working with arrays and algebraic data types must also be provided. Developing syntax to express the many new concepts introduced in the language in a manner that is unambiguous to the programmer and to the compiler, and that blends will with the S-expression syntax, may require some effort.
+
+\paragraph{Pattern Matching}
+Also unlike other Lisps, functions and anonymous functions in Mnemosyne are defined using \textit{pattern matching}, similar to the Haskell programming language~\cite{jones2003haskell,hudak1992gentle}. In this approach to function definition, a function or lambda is defined by one or more \textit{equations}, consisting of a pattern expression and a function body. The inputs to the function are matched against each pattern expression until a match is found. Any variables present in the pattern expression are then bound to the appropriate arguments, and the corresponding function body for that equation is then evaluated and returned.
 
 \subsection{Implementation}
 
