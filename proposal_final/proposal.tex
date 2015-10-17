@@ -32,6 +32,8 @@
 \documentclass[11pt,draft]{article}
 
 %% -- Listings  & Pseudocode ------------------------------------------
+
+\usepackage{framed}
 \usepackage{listings}
 \usepackage{fancyvrb}
 \usepackage{syntax}
@@ -76,7 +78,7 @@
 \usetikzlibrary{shapes,arrows,shadows,positioning}
 
 %% -- Definitions ------------------------------------------------------
-\usepackage[amsthm,hyperref]{ntheorem}
+\usepackage[framed,amsthm,hyperref]{ntheorem}
 
 \theoremstyle{break}
 \theoremheaderfont{\bf}\theorembodyfont{\itshape}
@@ -221,7 +223,7 @@ While programming languages researchers have produced a number of languages with
 The branch of programming concerned with the implementation of operating systems, utilities, and libraries that provides services to other software rather than to a human user~\cite{Narten:2003:SP:1074100.1074850}.
 \end{defn}
 
-Although this area of programming may seem unglamorous, it is vital to all uses of computers, whether in industry, the sciences, or in the home. New advances in such systems and the continual process of improvement and maintenance of existing ones is necessary in order to continue to serve the ever increasing demands of computer applications.
+Although this area of programming may seem unglamorous, it is vital to all computer applications, whether in industry, the sciences, or in the home. New advances in such systems and the continual process of improvement and maintenance of existing ones is necessary in order to continue to serve the ever increasing demands of computer applications.
 
 The programming languages community has, in recent years, produced a number of new programming languages, such as Haskell~\cite{jones2003haskell,hudak1992report}, Scala~\cite{odersky2004scala,odersky2004overview}, and others. These languages boast a number of qualities that support the fast and easy implementation of high-quality software, such as more expressive syntax and typing disciplines that uncover errors at compile-time. However, a majority of systems programming is still done in C~\cite{kernighan1988c}, a language which first appeared in 1972. C is plagued by safety issues and can be very difficult to program in, especially for novice programmers or those unfamiliar with its challenges~\cite{Shapiro:2006:PLC:1215995.1216004,Ray:2014:LSS:2635868.2635922,Bhattacharya:2011:APL:1985793.1985817}.
 
@@ -253,28 +255,34 @@ In Lisp, all language constructs take the same consistent form of the \textit{S-
 A notation for describing nested list data structures, where each list is delimited by parenthesis characters and each list element is separated by spaces.
 \end{defn}
 
-The following Baukus-Naur Form describes a simple grammar for S-expressions:
+The following Backus-Naur Form describes a simple grammar for S-expressions:
 \begin{listing}[h]
-\begin{grammar}
-  <s-exp> ::= `(' <op> <exp> `)'
+    \begin{centering}
+    \begin{grammar}
+      <s-exp> $\to$ `(' <op> <exp> `)'
 
-  <exp> ::= <s-exp>  | <constant> | <exp> <exp> | $\varepsilon$
+      <exp>  $\to$ <s-exp>  | <constant> | <exp> <exp> | $\varepsilon$
 
-  <op> ::= <language-function> | <user-function>
-\end{grammar}
+      <op>  $\to$ <language-function> | <user-function>
+    \end{grammar}
+    \end{centering}
 \end{listing}
 
-Do note that a number of symbols (i.e. those for constants and functions) are left undefined, as this grammar is not intended as a complete description of a language.
+A number of symbols (i.e. those for constants and functions) are left undefined, as this grammar is not intended as a complete description of a language.
 
 For example, to sum two numbers, one would state:
+\begin{centering}
 \mint{lisp}|(+ 1 1)|
+\end{centering}
 More complex concepts may be expressed just as easily with these S-expressions. Consider a conditional logic expression:
+\begin{centering}
 \begin{minted}{lisp}
 (if (> a 0)
   (+ a 1)
   (- a 1)
 )
 \end{minted}
+\end{centering}
 This expression evaluates to the value of \mintinline{lisp}|a| + 1 if variable \mintinline{lisp}|a| is greater than zero, and \mintinline{lisp}|a| - 1 if it is not.
 
 The \textit{Von Neumann architecture}, in which the same memory is used to store both data and instructions~\cite{von1993first}, is fundamental to the history of modern computing. By storing program code and data in the same consistent list structure and allowing programs to act easily on their own instructions~\cite{Smith:1984:RSL:800017.800513}, Lisp is something of a reinforcement of this fundamental design.
@@ -293,7 +301,7 @@ Garbage-collected languages, such as Java, Scala, and Python, make the implement
 
 While a great deal of work has taken place in order to make garbage collection as fast and efficient as possible, the measurable costs associated with a garbage collector pass~\cite{Hertz:2005:QPG:1094811.1094836} are unavoidable. For application programmers, the benefits of garbage collection are worth the performance tradeoffs, but for systems programming, this is often not the case --- if a garbage collector pass interrupts a time-critical system component such as the OS scheduler, the performance of all programs running on the system is impacted. Furthermore, low-level systems components must often function with minimal support from a runtime infrastructure which provides features such as garbage collection, as they \textit{are} this infrastructure for other software.
 
-Received wisdom therefore holds forth that one cannot reconcile automatic memory management with the requirements of systems software, cursing the implementors of systems to rely on \mintinline{c}|malloc()| and \mintinline{c}|free()| forever.
+Received wisdom therefore holds forth that one cannot reconcile automatic memory management with the requirements of systems software, condemning the implementors of systems to rely on \mintinline{c}|malloc()| and \mintinline{c}|free()| forever.
 
 \subsection{Alternative Memory Management}
 
@@ -311,7 +319,7 @@ In \textit{stack allocation}, all memory objects are allocated on a stack, with 
 A method of memory management in which each allocated memory object may be accessed only a single time. A linear type is produced once and consumed only once, always having a reference count of exactly 1~\cite{Baker:1992:LLL:142137.142162,hawblitzel2004low,Baker:1995:UVL:199818.199860}.
 \end{defn}
 
-\textit{Linear allocation} is a similar but more constrained approach. Linear types may be accessed only once over their lifetimes~\cite{Baker:1992:LLL:142137.142162,hawblitzel2004low,Baker:1995:UVL:199818.199860}. While this may initially seem unpleasantly limiting, we should take note of the fact that such a type, would therefore require no garbage collection~\cite{Baker:1992:LLL:142137.142162,Baker:1995:UVL:199818.199860}. In the fantastically-titled papers \citetitle{Baker:1992:LLL:142137.142162} (\citeyear{Baker:1992:LLL:142137.142162}) and \citetitle{Baker:1995:UVL:199818.199860} (\citeyear{Baker:1995:UVL:199818.199860}), \citeauthor{Baker:1992:LLL:142137.142162} described a type system for programming languages with linear allocation which differentiates shared memory objects, which may be accessed outside of their parent scopes, from unshared objects. Once an object is made public, it may be used only once~\cite{Baker:1995:UVL:199818.199860,Baker:1992:LLL:142137.142162}. The similarities between Baker's linear types and Rust's ownership are obvious: both methods attempt to encode information about memory allocation in a language's type system and, in doing so, perform automatic memory management in the compiler rather than at runtime.
+\textit{Linear allocation} is a similar but more constrained approach. Linear types may be accessed only once over their lifetimes~\cite{Baker:1992:LLL:142137.142162,hawblitzel2004low,Baker:1995:UVL:199818.199860}. While this may initially seem unpleasantly limiting, we should take note of the fact that such a type would therefore require no garbage collection~\cite{Baker:1992:LLL:142137.142162,Baker:1995:UVL:199818.199860}. In the fantastically-titled papers \citetitle{Baker:1992:LLL:142137.142162} (\citeyear{Baker:1992:LLL:142137.142162}) and \citetitle{Baker:1995:UVL:199818.199860} (\citeyear{Baker:1995:UVL:199818.199860}), \citeauthor{Baker:1992:LLL:142137.142162} described a type system for programming languages with linear allocation which differentiates shared memory objects, which may be accessed outside of their parent scopes, from unshared objects. Once an object is made public, it may be used only once~\cite{Baker:1995:UVL:199818.199860,Baker:1992:LLL:142137.142162}. The similarities between Baker's linear types and Rust's ownership are obvious: both methods attempt to encode information about memory allocation in a language's type system and, in doing so, perform automatic memory management in the compiler rather than at runtime.
 
 %\vspace*{-.1in}
 %\section{Related Work}
@@ -326,13 +334,13 @@ A method of memory management in which each allocated memory object may be acces
 \section{Method of Approach}
 \label{sec:method}
 
-This proposal outlines a strategy the creation of a new language intended for systems programming, called Mnemosyne, after the Titaness who personified the concept of memory in ancient Greek mythology. The primary goal of the Mnemosyne project is to create safe, expressive functional programming language which is nonetheless suitable for high-performance and systems programming. Not unlike Rust, Mnemosyne aims to fulfill a niche similar to that of C++, offering similar performance and low-level access to hardware, but providing some abstractions to ease programming.
+This proposal outlines a strategy for the creation of a new language intended for systems programming, called Mnemosyne, after the Titaness who personified the concept of memory in ancient Greek mythology. The primary goal of the Mnemosyne project is to create a safe, expressive functional programming language which is nonetheless suitable for high-performance and systems programming. Like Rust, Mnemosyne aims to fulfill a niche similar to that of C++, offering similar performance and low-level access to hardware, but providing some abstractions to ease programming.
 
 \subsection{Design Considerations}
 
 \subsubsection{Syntax}
 
-Mnemosyne borrows the expression syntax of the Lisp family of languages, as described in \Cref{subsec:lisp}. S-expression syntax has a number of advantages. In addition to assisting programmers in understanding the compiler or interpreter's understanding of their code (through the concept of homoiconicity), the consistency of the syntax of S-expression based languages makes parsing fairly simple. Ease of parsing is of great advantage to the implementation of proof-of-concept or research programming languages, as developing a parser is a not insignificant portion of the workload of compiler implementation.
+Mnemosyne borrows the expression syntax of the Lisp family of languages, as described in \Cref{subsec:lisp}. S-expression syntax has a number of advantages. In addition to assisting programmers in understanding the compiler or interpreter's understanding of their code (through the concept of homoiconicity), the consistency of the syntax of S-expression based languages makes parsing fairly simple. Ease of parsing is of great advantage to the implementation of proof-of-concept or research programming languages, as developing a parser is a significant portion of the workload of compiler implementation.
 
 Despite its S-expression-based syntax, Mnemosyne is not technically a member of the Lisp family. In addition to the use of S-expressions, Lisps are generally characterized as being dynamically-typed interpreted languages. Since a primary goal of the new language's design is to perform memory management at compile-time, it would therefore have to be a compiled language. Furthermore, in order to permit reasoning about memory at compile-time, a change in typing discipline is also necessary, since the type of a value determines the amount of space that it occupies in memory.
 
