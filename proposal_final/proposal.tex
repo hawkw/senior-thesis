@@ -29,29 +29,34 @@
 %   ********************************************************************
 %   * BEGINNING OF PREAMBLE:                                           *
 %   ********************************************************************
-\documentclass[11pt,draft]{article}
+\documentclass[11pt,a4paper]{article}
+
+%% -- Typesetting -----------------------------------------------------
+\usepackage[utf8]{inputenc}
+\usepackage[english]{babel}
+\usepackage[T1]{fontenc}
+
+\usepackage{fancyhdr}
+\usepackage[nottoc,numbib]{tocbibind}
+\usepackage{booktabs}
+\usepackage{lmodern}
 
 %% -- Listings  & Pseudocode ------------------------------------------
 
-\usepackage{framed}
+\usepackage{minted}
+% \usepackage{courier}
+\usemintedstyle{manni}
 \usepackage{listings}
 \usepackage{fancyvrb}
 \usepackage{syntax}
-\usepackage{minted}
 \usepackage{algorithmic}
 \usepackage{algorithm}
-
-\usemintedstyle{trac}
 
 %% -- Math ------------------------------------------------------------
 \usepackage{amsmath,amssymb}
 
-%% -- Typesetting -----------------------------------------------------
-\usepackage{fancyhdr}
-\usepackage[nottoc,numbib]{tocbibind}
-\usepackage{booktabs}
 
-\usepackage[T1]{fontenc}
+
 \usepackage{mathptmx}
 \topmargin 0.0in
 \setlength{\textwidth} {420pt}
@@ -257,7 +262,7 @@ A notation for describing nested list data structures, where each list is delimi
 
 The following Backus-Naur Form describes a simple grammar for S-expressions:
 \begin{listing}[h]
-    \begin{centering}
+    \centering
     \begin{grammar}
       <s-exp> $\to$ `(' <op> <exp> `)'
 
@@ -265,24 +270,27 @@ The following Backus-Naur Form describes a simple grammar for S-expressions:
 
       <op>  $\to$ <language-function> | <user-function>
     \end{grammar}
-    \end{centering}
 \end{listing}
 
 A number of symbols (i.e. those for constants and functions) are left undefined, as this grammar is not intended as a complete description of a language.
 
 For example, to sum two numbers, one would state:
-\begin{centering}
+
+\begin{center}
 \mint{lisp}|(+ 1 1)|
-\end{centering}
+\end{center}
+
 More complex concepts may be expressed just as easily with these S-expressions. Consider a conditional logic expression:
-\begin{centering}
+
+{\centering
 \begin{minted}{lisp}
 (if (> a 0)
   (+ a 1)
   (- a 1)
 )
-\end{minted}
-\end{centering}
+\end{minted}\par
+}
+
 This expression evaluates to the value of \mintinline{lisp}|a| + 1 if variable \mintinline{lisp}|a| is greater than zero, and \mintinline{lisp}|a| - 1 if it is not.
 
 The \textit{Von Neumann architecture}, in which the same memory is used to store both data and instructions~\cite{von1993first}, is fundamental to the history of modern computing. By storing program code and data in the same consistent list structure and allowing programs to act easily on their own instructions~\cite{Smith:1984:RSL:800017.800513}, Lisp is something of a reinforcement of this fundamental design.
@@ -346,7 +354,7 @@ Despite its S-expression-based syntax, Mnemosyne is not technically a member of 
 
 Also unlike other Lisps, functions and anonymous functions in Mnemosyne are defined using \textit{pattern matching}, similar to the Haskell programming language~\cite{jones2003haskell,hudak1992gentle,hudak1992report}. Pattern matching is a syntactic construct common to functional programming languages such as Haskell~\cite{jones2003haskell,hudak1992report,hudak1992gentle}, Scala~\cite{odersky2004scala,odersky2004overview}, and ML~\cite{maranget2008compiling,Krishnaswami:2009:FPM:1594834.1480927}. In pattern matching, an expression or value is tested against a series of pattern expressions, which can test equality for constant values, test subtype relationships, and destructure algebraic data types. The compiler converts these match expressions to decision trees in the resultant program binary, resulting in a high performance and expressive method of program flow control~\cite{maranget2007warnings,Krishnaswami:2009:FPM:1594834.1480927,syme2007extensible,maranget2008compiling} In this approach to function definition, a function or lambda is defined by one or more \textit{equations}, consisting of a pattern expression and a function body. The inputs to the function are matched against each pattern expression until a match is found. Any variables present in the pattern expression are then bound to the appropriate arguments, and the corresponding function body for that equation is then evaluated and returned~\cite{jones2003haskell,hudak1992report}.
 
- Function definition through pattern matching was chosen for Mnemosyne for a number of reasons. Primarily, it encourages programmers to consider functions as they are in mathematics: a mapping of input values to output values; and encourages the use of explicit base cases for recursive functions~\cite{hudak1992gentle}. Additionally, function definition through pattern matching permits the programmer to write functions with varying arities depending on the passed arguments, a useful tool in languages which provide automatic currying\footnote{Like Haskell}, a feature planned for a future Mnemosyne release.
+Function definition through pattern matching was chosen for Mnemosyne for a number of reasons. Primarily, it encourages programmers to consider functions as they are in mathematics: a mapping of input values to output values; and encourages the use of explicit base cases for recursive functions~\cite{hudak1992gentle}. Additionally, function definition through pattern matching permits the programmer to write functions with varying arities depending on the passed arguments, a useful tool in languages which provide automatic currying\footnote{Like Haskell}, a feature planned for a future Mnemosyne release.
 
 Additionally, there would be a need to introduce syntax for working with pointer types. Lisps typically do not provide a great deal of functionality for performing operations such as pointer arithmetic. In a systems programming language, methods of working on memory addresses at a low level are necessary. Furthermore, depending on the memory management method employed, there may additionally be a need to differentiate between types of references, as in Rust, which distinguishes between pointers or references which are borrowed from another scope, those which were moved from another scope, and those which are owned by the scope in which they are referenced~\cite{Matsakis:2014:RL:2663171.2663188}.
 
@@ -373,6 +381,33 @@ Programs will be compiled to machine code binaries using LLVM~\cite{Lattner:2004
 The Mnemosyne syntax analysis stage will consist of a parser with integrated lexical analysis (tokenization). While many compilers include separate tokenizer and parser stages, the simplicity of Mnemosyne's Lisp-inspired grammar should permit the parser to generate abstract syntax tree nodes from the program character string directly, without a separate lexical analysis phase. The parser will be implemented using the \texttt{combinator parsing} technique~\cite{swierstra2001combinator,frost2008parser,fokker1995functional,hutton1996monadic}, a common method of implementing parsers in functional programming languages.
 
 In combinator parsing, a \texttt{parser} is a function which either accepts or rejects a character or string of characters. A \textit{parser combinator} is a higher-order function which takes as parameters one or more parsers, and returns a new parser that combines or modifies the input parsers according to some rule.  Common parser combinators might include a repetition combinator that parses one or more repetitions of a character or string, a disjunction combinator which parses either one character or string or another, and a sequential combinator that parses one character or string followed by another. By combining many small parsers using these combinators, a recursive-descent parser is implemented~\cite{Danielsson:2010:TPC:1932681.1863585,swierstra2001combinator,hutton1996monadic}. Unlike the often nightmarishly complex code generated by traditional parser generators such as \texttt{yacc} or \texttt{bison}, parsers written using combinator parsing are implemented entirely by the programmer, and are often much simpler and easier to understand. Combinator parsing libraries exist in a number of functional programming languages, such as Scala~\cite{moors2008parser} and Haskell~\cite{leijen2002parsec}; Mnemosyne will use a Rust library called \texttt{combine}, based on Haskell's \texttt{Parsec}~\cite{leijen2002parsec}.
+
+\begin{listing}[ht]
+    \begin{minted}[linenos=true]{rust}
+fn parse_def(&self, input: State<I>) -> ParseResult<Form<'a, U>, I> {
+    let function_form
+        = self.name()
+              .and(self.function())
+              .map(|(name, fun)| DefForm::Function { name: name
+                                                   , fun: fun });
+    let top_level
+        = self.name()
+              .and(self.type_name())
+              .and(self.expr())
+              .map(|((name, ty), body)|
+                DefForm::TopLevel { name: name
+                                  , annot: ty
+                                  , value: Rc::new(body) });
+
+    self.reserved("def").or(self.reserved("define"))
+        .with(function_form.or(top_level))
+        .map(Form::Define)
+        .parse_state(input)
+}
+    \end{minted}
+    \label{lst:combinator}
+    \caption{Example of combinator parsing in the Mnemosyne compiler.}
+\end{listing}
 
 The Mnemosyne compiler is designed with the anticipation that most Mnemosyne libraries will be distributed as source code rather than as compiled binary files. Library sources will be compiled alongside the programs that depend on them, and cached locally so that they need only be recompiled in the event of changes. This approach frees library developers from having to maintain and publish multiple binaries for various operating systems and configurations. Additionally, it may allow the compiler to output smaller binaries in many cases, as code from dependencies that is not used in the program being compiled can often be elided from the result executable. Finally, client developers will be able to opt in or out of various library features using conditional compilation.
 
