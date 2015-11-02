@@ -346,6 +346,8 @@ A method of memory management in which each allocated memory object may be acces
 
 This proposal outlines a strategy for the creation of a new language intended for systems programming, called Mnemosyne, after the Titaness who personified the concept of memory in ancient Greek mythology. The primary goal of the Mnemosyne project is to create a safe, expressive functional programming language which is nonetheless suitable for high-performance and systems programming. Like Rust, Mnemosyne aims to fulfill a niche similar to that of C++, offering similar performance and low-level access to hardware, but providing some abstractions to ease programming.
 
+While Rust and Mnemosyne have similar goals, Rust is among the first languages with lifetime-based memory management to gain widespread adoption. Thus, it seems that there is still a need for increased diversity of languages in this design space. Rust and Mnemosyne differ along a number of axes. Rust's syntax is inspired primarily by that of C and the languages descended from it, while Mmemosyne's is drawn from the Lisp family. Many programmers find Lisp-style homoiconic expressions to be powerful, elegant, and expressive, as discussed in ~\Cref{sec:background}. Furthermore, future Mnemosyne development is planned to include features not present in Rust. For example, in a future release, Mnemosyne will enforce function purity, as in Haskell~\cite{jones2003haskell,hudak1992gentle,hudak1992report}, which will eventually be developed into a fully featured effect system in which the side effects of functions are encoded in the type system~\cite{Marino:2009:GTS:1481861.1481868}.
+
 \subsection{Design Considerations}
 
 \subsubsection{Syntax}
