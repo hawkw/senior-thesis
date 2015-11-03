@@ -1,0 +1,80 @@
+%
+% $Id: ch03_thework.tex
+%
+%   *******************************************************************
+%   * SEE THE MAIN FILE "main.tex" FOR MORE INFORMATION.       *
+%   *******************************************************************
+%
+\chapter{Method of Approach} \label{ch:method}
+This chapter demonstrates how to include short code segments,
+how to include pseudocode, and a few other \LaTeX\ features.
+
+\section{Test Environment}
+Algorithm \ref{widgmin} (from \cite{Fiori:2013}) shows a high-level description of an
+algorithm. There are many options for the display of
+pseudocode; this uses the {\tt algorithm2e} package \cite{Fiori:2013},
+but there are a number of others available at the Comprehensive \TeX\ Archive
+Network (\url{ctan.org}). Using any of these
+other packages might require the additon of one or more
+``\verb$\usepackage{...}$'' commands in the main {\tt main.tex} file.
+
+%   *******************************************************************
+%   * SEE CHAPTER ch_01overview.tex FOR INFORMATION ON CONTROLLING    *
+%   * PLACEMENT OF FIGURES.                                           *
+%   *                                                                 *
+%   * THERE ARE MANY DIFFERENT ALGORITHM ENVIRONMENTS. HERE, WE USE   *
+%   * THE "algorithm2e" PACKAGE, BUT YOU SHOULD LOOK TO SEE IF        *
+%   * OTHER PACKAGES BETTER MEET YOUR NEEDS. REGARDLESS OF WHICH      *
+%   * PACKAGE YOU USE, EXPECT TO SPEND TIME READING THE USER MANUAL   *
+%   * AS THERE ARE USUALLY A LARGE NUMBER OF PARAMETERS THAT CAN      *
+%   * SIGNIFICANTLY AFFECT THE FINAL APPEARANCE OF THE ALGORITHM.     *
+%   *******************************************************************
+
+\begin{algorithm}[htbp]
+ %\SetLine % For v3.9
+ \SetAlgoLined % For previous releases [?]
+ \KwData{this text}
+ \KwResult{how to write algorithm with \LaTeX2e }
+ initialization\;
+ \While{not at end of this document}{
+  read current\;
+  \eIf{understand}{
+   go to next section\;
+   current section becomes this one\;
+   }{
+   go back to the beginning of current section\;
+  }
+ }
+ \caption{How to write algorithms (from \cite{Fiori:2013})}
+\label{widgmin}
+\end{algorithm}
+
+\section{Experiments}
+
+% Figure \ref{javaprog} shows a Java program. There are many, many options for
+% providing program listings; only a few of the basic ones are shown
+% in the figure. Some thought must be given to making code suitable
+% for display in a paper. In particular long lines, tabbed indents, and
+% several other practices should be avoided. Figure \ref{javaprog} makes
+% use of the {\tt listings} style file \cite{Heinz:2013}.
+
+%   *******************************************************************
+%   * SEE CHAPTER ch_01overview.tex FOR INFORMATION ON CONTROLLING    *
+%   * PLACEMENT OF FIGURES.                                           *
+%   *                                                                 *
+%   * SEE THE MAIN FILE "main.tex" FOR THE "\lstset" COMMAND   *
+%   * THAT DEFINES HOW PROGRAM LISTINGS WILL LOOK.                    *
+%   *                                                                 *
+%   * AS WITH EVERYTHING IN LATEX, LOOK AT THE USER MANUAL, SEARCH    *
+%   * FOR EXAMPLES ONLINE, CUSTOMIZE TO GET A PLEASING LOOK.          *
+%   *******************************************************************
+
+
+% \begin{figure}[htbp]
+% \centering
+% \lstinputlisting{SampleProgUncommented.java}
+% \caption{{\tt SampleProg}: A very simple program}
+% \label{javaprog}
+% \end{figure}
+
+\section{Threats to Validity}
