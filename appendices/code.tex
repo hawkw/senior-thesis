@@ -4,6 +4,12 @@
 %   *******************************************************************
 %   * SEE THE MAIN FILE "main.tex" FOR MORE INFORMATION.       *
 %   *******************************************************************
+\newmintedfile[apprust]{rust}{ fontfamily = lmtt
+                              , linenos = true
+                              , numberblanklines=true
+                              , mathescape = true
+                              , fontsize = \footnotesize
+                              }
 
 \chapter{Manganese Source Code}\label{app:code}
 All program code should be fully commented. Authorship
@@ -13,3 +19,44 @@ of all parts of the code should be clearly specified.
 %   * SEE THE MAIN FILE "main.tex" FOR THE "\lstset" COMMAND   *
 %   * THAT DEFINES HOW PROGRAM LISTINGS WILL LOOK.                    *
 %   *******************************************************************
+
+\section{Main Module}
+% \begin{listing}[h]
+    \apprust{appendices/source/core/src/lib.rs}
+%     \caption{Contents of the file \texttt{core/src/lib.rs}}
+%     \label{src:lib.rs}
+% \end{listing}
+%
+% \begin{listing}
+    \apprust{appendices/source/core/src/chars.rs}
+%     \caption{Contents of the file \texttt{core/src/chars.rs}}
+%     \label{src:chars.rs}
+% \end{listing}
+%
+% \begin{listing}
+    \apprust{appendices/source/core/src/errors.rs}
+%     \caption{Contents of the file \texttt{core/src/errors.rs}}
+%     \label{src:errors.rs}
+% \end{listing}
+%
+% \begin{listing}
+    \apprust{appendices/source/core/src/forktable.rs}
+%     \caption{Contents of the file \texttt{core/src/forktable.rs}}
+%     \label{src:forktable.rs}
+% \end{listing}
+%
+% \begin{listing}
+    \apprust{appendices/sourcecore/src/position.rs}
+%     \caption{Contents of the file \texttt{core/src/position.rs}}
+%     \label{src:position.rs}
+% \end{listing}
+
+\section{\texttt{compile} Module}
+%
+% \begin{listing}
+    \apprust{appendices/source/core/src/compile/mod.rs}
+%     \caption{Contents of the file \texttt{core/src/compile/mod.rs}}
+%     \label{src:compile/mod.rs}
+% \end{listing}
+
+\section{\texttt{semantic} Module}

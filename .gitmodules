@@ -1,0 +1,3 @@
+[submodule "appendices/mnemosyne"]
+	path = appendices/source
+	url = git://github.com/hawkw/mnemosyne.git

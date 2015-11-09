@@ -54,69 +54,59 @@
 %\usepackage[single]{gatorthesis} % for student
 %\usepackage[debug,draft,nolists,nofront,single]{gatorthesis} % more options
 
+% %% -- Typesetting -----------------------------------------------------
+\usepackage[utf8]{inputenc}
+\usepackage[english]{babel}
+\usepackage[T1]{fontenc}
+\usepackage{booktabs}
+\usepackage{lmodern}
 \usepackage{comment}     % provides a way to "comment out" sections in blocks
 \usepackage{doublespace} % final document should be double-spaced!
-\usepackage{amsmath}     % special symbols
-\usepackage{amssymb}     % more special symbols
-\usepackage{epsfig}      % needed for including figures
-% \usepackage{fancybox}  % --- DISABLED BY RSR, SEP 2013 ---
-\usepackage{url}
-\usepackage{listings}
-\usepackage[figure]{algorithm2e}
-\usepackage{graphicx}
 
-% %% -- Typesetting -----------------------------------------------------
-% \usepackage[utf8]{inputenc}
-\usepackage[english]{babel}
-% \usepackage[T1]{fontenc}
-% \usepackage{booktabs}
-% \usepackage{lmodern}
-% \usepackage{comment}     % provides a way to "comment out" sections in blocks
-% \usepackage{doublespace} % final document should be double-spaced!
-%
 % %% -- Listings  & Pseudocode ------------------------------------------
 \usepackage{minted}
 \setminted{style=manni, fontfamily=lmtt}
-% \usepackage{fancyvrb}
-\usepackage{syntax}
-% \usepackage{placeins}
+\usepackage{fancyvrb}
+% \usepackage{syntax}
+\usepackage{placeins}
 % \usepackage{listings}
-% % \usepackage[figure]{algorithm2e}
-%
-% %% -- Math ------------------------------------------------------------
-% % \usepackage{amsmath,amssymb}
-% % \usepackage{mathptmx}
-%
-% %% -- Referencing -------------------------------------------------------
-% \usepackage{hyperref}
-% \usepackage{cleveref}
-% \usepackage[
-%     backend=bibtex,
-%     style=numeric,
-%     sortcites=true,
-%     sorting=nty,
-%     backref,
-%     natbib,
-%     hyperref
-% ]{biblatex}
-%
-% %% -- Figures ----------------------------------------------------------
-% % \usepackage{epsfig}      % needed for including figures
-% % \usepackage{fancybox}  % --- DISABLED BY RSR, SEP 2013 ---
-% \usepackage{graphicx}
-%
-% \usepackage{url}
+\usepackage[figure]{algorithm2e}
 
-%% -- Definitions ------------------------------------------------------
-% \usepackage[framed,amsthm,hyperref]{ntheorem}
-%
-% \theoremstyle{break}
-% \theoremheaderfont{\bf}\theorembodyfont{\itshape}
-%
-% \theorempreskip{\topsep}
-% \theorempostskip{\topsep}
-% \theoremseparator{:}
-% \newtheorem{defn}{Definition}
+%% -- Math ------------------------------------------------------------
+\usepackage{amsmath,amssymb}
+\usepackage{mathptmx}
+
+%% -- Referencing -------------------------------------------------------
+\usepackage{hyperref}
+\usepackage{cleveref}
+\usepackage[
+    backend=bibtex,
+    style=numeric,
+    sortcites=true,
+    sorting=nty,
+    backref,
+    natbib,
+    hyperref
+]{biblatex}
+\bibliography{bibliography/thesis}
+
+%% -- Figures ----------------------------------------------------------
+% \usepackage{epsfig}      % needed for including figures
+% \usepackage{fancybox}  % --- DISABLED BY RSR, SEP 2013 ---
+\usepackage{graphicx}
+
+\usepackage{url}
+
+% -- Definitions ------------------------------------------------------
+\usepackage[framed,amsthm,hyperref]{ntheorem}
+
+\theoremstyle{break}
+\theoremheaderfont{\bf}\theorembodyfont{\itshape}
+
+\theorempreskip{\topsep}
+\theorempostskip{\topsep}
+\theoremseparator{:}
+\newtheorem{defn}{Definition}
 
 %   ********************************************************************
 %   * OPTIONAL: IF YOU WANT VERY FINE CONTROL OVER HOW LATEX HYPHENATES*
@@ -212,7 +202,8 @@
 
 \tableofcontents
 %\listoftables       % OMIT THIS IF YOU DON'T HAVE ANY TABLES
-% \listoffigures      % OMIT THIS IF YOU DON'T HAVE ANY FIGURES
+\listoffigures      % OMIT THIS IF YOU DON'T HAVE ANY FIGURES
+\listoflistings
 
 %   ********************************************************************
 %   * A GLOSSARY IS ALMOST NEVER NEEDED UNLESS YOU HAVE AN UNUSUALLY   *
@@ -303,7 +294,7 @@
 
 \nocite{*} % OR DO THIS TO INCLUDE ALL BIBTEX REFERENCES IN THE BIBLIOGRAPHY
 
-\bibliographystyle{plain}
+% \bibliographystyle{plain}
 
 %   ********************************************************************
 %   * IF YOU HAVE YOUR BIBLIOGRAPHY IN A SEPARATE ".bib" FILE, HERE IS *
@@ -313,8 +304,7 @@
 %   ********************************************************************
 
 \begin{spacing}{1}
-\bibliography{bibliography/sample}    % File type ".bib" is assumed
-\bibliography{bibliography/thesis}
+\printbibliography
 \end{spacing}
 
 %   ********************************************************************
