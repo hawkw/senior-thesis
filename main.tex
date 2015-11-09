@@ -64,12 +64,29 @@
 \usepackage{doublespace} % final document should be double-spaced!
 
 % %% -- Listings  & Pseudocode ------------------------------------------
-\usepackage{minted}
+\usepackage[chapter]{minted}
 \setminted{style=manni, fontfamily=lmtt}
+\newminted[inlinerust]{rust}{ fontfamily = lmtt
+                            , linenos = true
+                            , numberblanklines=true
+                            , mathescape = true
+                            , fontsize = \footnotesize
+                            , frame=leftline
+                            , framerule=0.4pt
+                            , framesep=2mm
+                            }
+\newminted[inlinelisp]{lisp}{ fontfamily = lmtt
+                            , linenos = true
+                            , numberblanklines=true
+                            , mathescape = true
+                            , fontsize = \footnotesize
+                            , frame=leftline
+                            , framerule=0.4pt
+                            , framesep=2mm
+                            }
 \usepackage{fancyvrb}
 % \usepackage{syntax}
 \usepackage{placeins}
-% \usepackage{listings}
 \usepackage[figure]{algorithm2e}
 
 %% -- Math ------------------------------------------------------------
@@ -250,18 +267,19 @@
 \include{chapters/ch01_overview} % Introduction -- of course, you can name it anything!
 
 % ch:relatedwork
-\include{chapters/ch02_relatedwork} % Background, literature survey, ...
+\include{chapters/ch02_background} % Background, literature survey, ...
 
-% ch:method
-\include{chapters/ch03_methodofapproach} % Chapter organization is topic-dependent
+% ch:design
+\include{chapters/ch03_design} % Chapter organization is topic-dependent
 
 %ch:implem
 \include{chapters/ch04_implementation} % Chapter organization is topic-dependent
 
-% YOU MAY HAVE SEVERAL MORE CHAPTERS, DEPENDING ON TOPIC AND ORGANIZATION
+%ch:eval
+\include{chapters/ch05_evaluation} % Chapter organization is topic-dependent
 
 %ch:conclusion
-\include{chapters/ch05_conclusion} % Conclusion/future work
+\include{chapters/ch06_conclusion} % Conclusion/future work
 
 %   ********************************************************************
 %   * IF YOU HAVE ANY APPENDICES (FOR INSTANCE, CODE, DATA, GRAPHS,    *

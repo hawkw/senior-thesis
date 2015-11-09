@@ -5,11 +5,11 @@
 %   * SEE THE MAIN FILE "main.tex" FOR MORE INFORMATION.       *
 %   *******************************************************************
 \newmintedfile[apprust]{rust}{ fontfamily = lmtt
-                              , linenos = true
-                              , numberblanklines=true
-                              , mathescape = true
-                              , fontsize = \footnotesize
-                              }
+                             , linenos = true
+                             , numberblanklines=true
+                             , mathescape = true
+                             , fontsize = \footnotesize
+                             }
 
 \chapter{Manganese Source Code}\label{app:code}
 All program code should be fully commented. Authorship
@@ -20,43 +20,59 @@ of all parts of the code should be clearly specified.
 %   * THAT DEFINES HOW PROGRAM LISTINGS WILL LOOK.                    *
 %   *******************************************************************
 
-\section{Main Module}
-% \begin{listing}[h]
-    \apprust{appendices/source/core/src/lib.rs}
+\section{Mnemosyne Core Crate}
+% \begin{listing}[H]
+    \paragraph{lib.rs}
+    \apprust[label=Contents of the file \texttt{core/src/lib.rs}
+            ]{appendices/source/core/src/lib.rs}
 %     \caption{Contents of the file \texttt{core/src/lib.rs}}
 %     \label{src:lib.rs}
-% \end{listing}
+% % \end{listing}
 %
-% \begin{listing}
+% \begin{listing}[H]
+    \paragraph{chars.rs}
     \apprust{appendices/source/core/src/chars.rs}
 %     \caption{Contents of the file \texttt{core/src/chars.rs}}
 %     \label{src:chars.rs}
 % \end{listing}
 %
-% \begin{listing}
+% \begin{listing}[H]
+    \paragraph{errors.rs}
     \apprust{appendices/source/core/src/errors.rs}
 %     \caption{Contents of the file \texttt{core/src/errors.rs}}
 %     \label{src:errors.rs}
 % \end{listing}
 %
-% \begin{listing}
+% \begin{listing}[H]
+    \paragraph{forktable.rs}
     \apprust{appendices/source/core/src/forktable.rs}
 %     \caption{Contents of the file \texttt{core/src/forktable.rs}}
 %     \label{src:forktable.rs}
 % \end{listing}
 %
-% \begin{listing}
-    \apprust{appendices/sourcecore/src/position.rs}
+% \begin{listing}[H]
+    \paragraph{position.rs}
+    \apprust{appendices/source/core/src/position.rs}
 %     \caption{Contents of the file \texttt{core/src/position.rs}}
 %     \label{src:position.rs}
 % \end{listing}
-
-\section{\texttt{compile} Module}
+\
 %
-% \begin{listing}
+% \begin{listing}[H]
+    \paragraph{compile/mod.rs}
     \apprust{appendices/source/core/src/compile/mod.rs}
 %     \caption{Contents of the file \texttt{core/src/compile/mod.rs}}
 %     \label{src:compile/mod.rs}
 % \end{listing}
 
-\section{\texttt{semantic} Module}
+
+\section{Mnemosyne Parser Crate}
+    \paragraph{lib.rs}
+    \apprust{appendices/source/parser/src/lib.rs}
+
+    \paragraph{tests.rs}
+    \apprust{appendices/source/parser/src/tests.rs}
+
+\section{Manganese Application Crate}
+    \paragraph{main.rs}
+    \apprust{appendices/source/src/main.rs}
