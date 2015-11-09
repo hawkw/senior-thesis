@@ -9,14 +9,14 @@
 This chapter demonstrates how to include short code segments,
 how to include pseudocode, and a few other \LaTeX\ features.
 
-\section{Test Environment}
-Algorithm \ref{widgmin} (from \cite{Fiori:2013}) shows a high-level description of an
-algorithm. There are many options for the display of
-pseudocode; this uses the {\tt algorithm2e} package \cite{Fiori:2013},
-but there are a number of others available at the Comprehensive \TeX\ Archive
-Network (\url{ctan.org}). Using any of these
-other packages might require the additon of one or more
-``\verb$\usepackage{...}$'' commands in the main {\tt main.tex} file.
+% \section{Test Environment}
+% Algorithm \ref{widgmin} (from \cite{Fiori:2013}) shows a high-level description of an
+% algorithm. There are many options for the display of
+% pseudocode; this uses the {\tt algorithm2e} package \cite{Fiori:2013},
+% but there are a number of others available at the Comprehensive \TeX\ Archive
+% Network (\url{ctan.org}). Using any of these
+% other packages might require the additon of one or more
+% ``\verb$\usepackage{...}$'' commands in the main {\tt main.tex} file.
 
 %   *******************************************************************
 %   * SEE CHAPTER ch_01overview.tex FOR INFORMATION ON CONTROLLING    *
@@ -29,25 +29,25 @@ other packages might require the additon of one or more
 %   * AS THERE ARE USUALLY A LARGE NUMBER OF PARAMETERS THAT CAN      *
 %   * SIGNIFICANTLY AFFECT THE FINAL APPEARANCE OF THE ALGORITHM.     *
 %   *******************************************************************
-
-\begin{algorithm}[htbp]
- %\SetLine % For v3.9
- \SetAlgoLined % For previous releases [?]
- \KwData{this text}
- \KwResult{how to write algorithm with \LaTeX2e }
- initialization\;
- \While{not at end of this document}{
-  read current\;
-  \eIf{understand}{
-   go to next section\;
-   current section becomes this one\;
-   }{
-   go back to the beginning of current section\;
-  }
- }
- \caption{How to write algorithms (from \cite{Fiori:2013})}
-\label{widgmin}
-\end{algorithm}
+% 
+% \begin{algorithm}[htbp]
+%  %\SetLine % For v3.9
+%  \SetAlgoLined % For previous releases [?]
+%  \KwData{this text}
+%  \KwResult{how to write algorithm with \LaTeX2e }
+%  initialization\;
+%  \While{not at end of this document}{
+%   read current\;
+%   \eIf{understand}{
+%    go to next section\;
+%    current section becomes this one\;
+%    }{
+%    go back to the beginning of current section\;
+%   }
+%  }
+%  \caption{How to write algorithms (from \cite{Fiori:2013})}
+% \label{widgmin}
+% \end{algorithm}
 
 \section{Experiments}
 

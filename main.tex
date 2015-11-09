@@ -54,7 +54,6 @@
 %\usepackage[single]{gatorthesis} % for student
 %\usepackage[debug,draft,nolists,nofront,single]{gatorthesis} % more options
 
-
 \usepackage{comment}     % provides a way to "comment out" sections in blocks
 \usepackage{doublespace} % final document should be double-spaced!
 \usepackage{amsmath}     % special symbols
@@ -65,6 +64,59 @@
 \usepackage{listings}
 \usepackage[figure]{algorithm2e}
 \usepackage{graphicx}
+
+% %% -- Typesetting -----------------------------------------------------
+% \usepackage[utf8]{inputenc}
+\usepackage[english]{babel}
+% \usepackage[T1]{fontenc}
+% \usepackage{booktabs}
+% \usepackage{lmodern}
+% \usepackage{comment}     % provides a way to "comment out" sections in blocks
+% \usepackage{doublespace} % final document should be double-spaced!
+%
+% %% -- Listings  & Pseudocode ------------------------------------------
+\usepackage{minted}
+\setminted{style=manni, fontfamily=lmtt}
+% \usepackage{fancyvrb}
+\usepackage{syntax}
+% \usepackage{placeins}
+% \usepackage{listings}
+% % \usepackage[figure]{algorithm2e}
+%
+% %% -- Math ------------------------------------------------------------
+% % \usepackage{amsmath,amssymb}
+% % \usepackage{mathptmx}
+%
+% %% -- Referencing -------------------------------------------------------
+% \usepackage{hyperref}
+% \usepackage{cleveref}
+% \usepackage[
+%     backend=bibtex,
+%     style=numeric,
+%     sortcites=true,
+%     sorting=nty,
+%     backref,
+%     natbib,
+%     hyperref
+% ]{biblatex}
+%
+% %% -- Figures ----------------------------------------------------------
+% % \usepackage{epsfig}      % needed for including figures
+% % \usepackage{fancybox}  % --- DISABLED BY RSR, SEP 2013 ---
+% \usepackage{graphicx}
+%
+% \usepackage{url}
+
+%% -- Definitions ------------------------------------------------------
+% \usepackage[framed,amsthm,hyperref]{ntheorem}
+%
+% \theoremstyle{break}
+% \theoremheaderfont{\bf}\theorembodyfont{\itshape}
+%
+% \theorempreskip{\topsep}
+% \theorempostskip{\topsep}
+% \theoremseparator{:}
+% \newtheorem{defn}{Definition}
 
 %   ********************************************************************
 %   * OPTIONAL: IF YOU WANT VERY FINE CONTROL OVER HOW LATEX HYPHENATES*
@@ -104,13 +156,13 @@
 %   * FILL IN THE "{...}" BELOW WITH YOUR INFORMATION.                 *
 %   ********************************************************************
 
-\thesistitle{Title of Your Thesis: Can Be\\Broken Across Lines}
+\thesistitle{Mnemosyne: A Functional Systems~Programming Language}
 
-\thesisauthor{Your Name} \thesisadvisor{Dr. Your Firstreader}
+\thesisauthor{Hawk Weisman} \thesisadvisor{Dr. Robert Roos}
 
 \thesisnumber{CS??-??} % SEE PAULINE LANZINE TO GET YOUR REPORT NUMBER!
 
-\thesisreadera{Dr. Your Secondreader}
+\thesisreadera{John Wenskovitch}
 
 
 %   ********************************************************************
@@ -160,7 +212,7 @@
 
 \tableofcontents
 %\listoftables       % OMIT THIS IF YOU DON'T HAVE ANY TABLES
-\listoffigures      % OMIT THIS IF YOU DON'T HAVE ANY FIGURES
+% \listoffigures      % OMIT THIS IF YOU DON'T HAVE ANY FIGURES
 
 %   ********************************************************************
 %   * A GLOSSARY IS ALMOST NEVER NEEDED UNLESS YOU HAVE AN UNUSUALLY   *
@@ -178,19 +230,22 @@
 %   * SEE CHAPTER 3 AND APPENDIX A                                     *
 %   ********************************************************************
 
-\lstset{
-  basicstyle=\footnotesize\tt, % the size of the fonts that are used for the code
-  breakatwhitespace=false,     % automatic breaks only happen at whitespace?
-  breaklines=true,             % sets automatic line breaking
-  captionpos=b,                % sets the caption-position to bottom
-  frame=single,                % adds a frame around the code
-  language=Java,               % the language of the code
-  keywordstyle=\bf,
-  showspaces=false,
-  showstringspaces=false,      % underline spaces within strings only?
-  showtabs=false,
-  tabsize=2                    % sets default tabsize to 2 spaces
-}
+% I've disabled the "lstset" command since I'm using minted to prepare
+% listings, instead. -- Hawk
+
+% \lstset{          %  --- DISABLED BY MHW, NOV 2015 ---
+%   basicstyle=\footnotesize\tt, % the size of the fonts that are used for the code
+%   breakatwhitespace=false,     % automatic breaks only happen at whitespace?
+%   breaklines=true,             % sets automatic line breaking
+%   captionpos=b,                % sets the caption-position to bottom
+%   frame=single,                % adds a frame around the code
+%   language=Java,               % the language of the code
+%   keywordstyle=\bf,
+%   showspaces=false,
+%   showstringspaces=false,      % underline spaces within strings only?
+%   showtabs=false,
+%   tabsize=2                    % sets default tabsize to 2 spaces
+% }
 
 %   ********************************************************************
 %   * NOW INCLUDE THE CHAPTER FILES; COMMENT OUT ANY YOU DON'T WANT TO *
@@ -229,7 +284,8 @@
 
 \appendix
 
-\include{appendices/appa}  % Appendices go here
+\include{appendices/grammar}  % Appendices go here
+\include{appendices/code}
 
 %   ********************************************************************
 %   * THE FINAL COMMANDS DEAL WITH BIBLIOGRAPHY/REFERENCES. IF THERE   *
