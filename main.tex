@@ -334,7 +334,10 @@
 %   ********************************************************************
 
 \begin{spacing}{1}
-\printbibliography
+    \begingroup
+    \setlength{\emergencystretch}{1em} % fixes overfull hboxes in citations
+                                       % (according to the interwebs)
+   \endgroup
 \end{spacing}
 
 %   ********************************************************************
