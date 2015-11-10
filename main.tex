@@ -66,30 +66,25 @@
 % %% -- Listings  & Pseudocode ------------------------------------------
 
 \usepackage[chapter]{minted}
-\setminted{fontfamily=lmtt}
-\newminted[inlinerust]{rust}{ fontfamily = lmtt
+\setminted{ fontfamily=lmtt
+          , style=trac
+          , mathescape = true
+          }
+\newminted[inlinerust]{rust}{ frame = leftline
+                            , framerule = 0.4pt
+                            , framesep = 2mm
                             , linenos = true
                             , numberblanklines=true
-                            , mathescape = true
-                            , fontsize = \footnotesize
-                            , frame=leftline
-                            , framerule=0.4pt
-                            , framesep=2mm
                             }
-\newminted[inlinelisp]{lisp}{ fontfamily = lmtt
+\newminted[inlinelisp]{lisp}{ frame = leftline
+                            , framerule = 0.4pt
+                            , framesep = 2mm
                             , linenos = true
-                            , numberblanklines=true
-                            , mathescape = true
-                            , fontsize = \footnotesize
-                            , frame=leftline
-                            , framerule=0.4pt
-                            , framesep=2mm
+                            , numberblanklines = true
                             }
-\newmintedfile[apprust]{rust}{ fontfamily = lmtt
+\newmintedfile[apprust]{rust}{ fontsize = \footnotesize
                              , linenos = true
-                             , numberblanklines=true
-                             , mathescape = true
-                             , fontsize = \footnotesize
+                             , numberblanklines = true
                              }
 \usepackage{fancyvrb}
 \usepackage[nounderscore]{syntax}
