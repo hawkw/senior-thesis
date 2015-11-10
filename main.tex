@@ -85,13 +85,13 @@
                             , framesep=2mm
                             }
 \usepackage{fancyvrb}
-% \usepackage{syntax}
+\usepackage[rounded,nounderscore]{syntax}
 \usepackage{placeins}
-\usepackage[figure]{algorithm2e}
+% \usepackage[figure]{algorithm2e}
 
 %% -- Math ------------------------------------------------------------
-\usepackage{amsmath,amssymb}
-\usepackage{mathptmx}
+% \usepackage{amsmath,amssymb}
+% \usepackage{mathptmx}
 
 %% -- Referencing -------------------------------------------------------
 \usepackage{hyperref}
@@ -106,23 +106,24 @@
            ]{biblatex}
 \bibliography{bibliography/thesis.bib}
 
+
 %% -- Figures ----------------------------------------------------------
 % \usepackage{epsfig}      % needed for including figures
 % \usepackage{fancybox}  % --- DISABLED BY RSR, SEP 2013 ---
-\usepackage{graphicx}
+% \usepackage{graphicx}
 
 \usepackage{url}
 
 % -- Definitions ------------------------------------------------------
-\usepackage[framed,amsthm,hyperref]{ntheorem}
+% \usepackage[framed,hyperref]{ntheorem}
 
-\theoremstyle{break}
-\theoremheaderfont{\bf}\theorembodyfont{\itshape}
-
-\theorempreskip{\topsep}
-\theorempostskip{\topsep}
-\theoremseparator{:}
-\newtheorem{defn}{Definition}
+% \theoremstyle{break}
+% \theoremheaderfont{\bf}\theorembodyfont{\itshape}
+%
+% \theorempreskip{\topsep}
+% \theorempostskip{\topsep}
+% \theoremseparator{:}
+% \newtheorem{defn}{Definition}
 
 %   ********************************************************************
 %   * OPTIONAL: IF YOU WANT VERY FINE CONTROL OVER HOW LATEX HYPHENATES*
@@ -292,7 +293,7 @@
 
 \appendix
 
-\include{appendices/grammar}  % Appendices go here
+\include{appendices/spec}  % Appendices go here
 \include{appendices/code}
 
 %   ********************************************************************
