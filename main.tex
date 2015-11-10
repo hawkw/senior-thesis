@@ -64,8 +64,9 @@
 \usepackage{doublespace} % final document should be double-spaced!
 
 % %% -- Listings  & Pseudocode ------------------------------------------
+
 \usepackage[chapter]{minted}
-\setminted{style=manni, fontfamily=lmtt}
+\setminted{fontfamily=lmtt}
 \newminted[inlinerust]{rust}{ fontfamily = lmtt
                             , linenos = true
                             , numberblanklines=true
@@ -84,14 +85,21 @@
                             , framerule=0.4pt
                             , framesep=2mm
                             }
+\newmintedfile[apprust]{rust}{ fontfamily = lmtt
+                             , linenos = true
+                             , numberblanklines=true
+                             , mathescape = true
+                             , fontsize = \footnotesize
+                             }
 \usepackage{fancyvrb}
-\usepackage[rounded,nounderscore]{syntax}
+\usepackage[nounderscore]{syntax}
+\def\<#1>{\synt{#1}} % allows `\<name>` to be used for nonterminal symbols
 \usepackage{placeins}
-% \usepackage[figure]{algorithm2e}
+\usepackage[figure]{algorithm2e}
 
 %% -- Math ------------------------------------------------------------
-% \usepackage{amsmath,amssymb}
-% \usepackage{mathptmx}
+\usepackage{amsmath,amssymb}
+\usepackage{mathptmx}
 
 %% -- Referencing -------------------------------------------------------
 \usepackage{hyperref}
@@ -108,22 +116,22 @@
 
 
 %% -- Figures ----------------------------------------------------------
-% \usepackage{epsfig}      % needed for including figures
+\usepackage{epsfig}      % needed for including figures
 % \usepackage{fancybox}  % --- DISABLED BY RSR, SEP 2013 ---
-% \usepackage{graphicx}
+\usepackage{graphicx}
 
 \usepackage{url}
 
 % -- Definitions ------------------------------------------------------
-% \usepackage[framed,hyperref]{ntheorem}
+\usepackage[framed,amsthm,hyperref]{ntheorem}
 
-% \theoremstyle{break}
-% \theoremheaderfont{\bf}\theorembodyfont{\itshape}
-%
-% \theorempreskip{\topsep}
-% \theorempostskip{\topsep}
-% \theoremseparator{:}
-% \newtheorem{defn}{Definition}
+\theoremstyle{break}
+\theoremheaderfont{\bf}\theorembodyfont{\itshape}
+
+\theorempreskip{\topsep}
+\theorempostskip{\topsep}
+\theoremseparator{:}
+\newtheorem{defn}{Definition}
 
 %   ********************************************************************
 %   * OPTIONAL: IF YOU WANT VERY FINE CONTROL OVER HOW LATEX HYPHENATES*
@@ -222,6 +230,7 @@
 \listoffigures      % OMIT THIS IF YOU DON'T HAVE ANY FIGURES
 \listoflistings
 
+
 %   ********************************************************************
 %   * A GLOSSARY IS ALMOST NEVER NEEDED UNLESS YOU HAVE AN UNUSUALLY   *
 %   * LARGE NUMBER OF SPECIAL TERMS OR NOTATIONS AND IT WOULD DETRACT  *
@@ -292,8 +301,11 @@
 %   ********************************************************************
 
 \appendix
+ % Appendices go here
 
-\include{appendices/spec}  % Appendices go here
+%app:spec
+\include{appendices/spec}
+%app:code
 \include{appendices/code}
 
 %   ********************************************************************

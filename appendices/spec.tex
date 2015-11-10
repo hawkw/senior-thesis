@@ -1,0 +1,86 @@
+% Appendix A: Mnemosyne Grammar
+% $Id: app-spec
+%
+%   *******************************************************************
+%   * SEE THE MAIN FILE "main.tex" FOR MORE INFORMATION.       *
+%   *******************************************************************
+
+\chapter{The Mnemosyne Programming Language: An Abridged Description}\label{app:spec}
+
+The following is an abbreviated description of the Mnemosyne programming language. It is for illustrative purposes only and is not intended as a complete formal specification.
+
+\section{Program Structure}
+
+All Mnemosyne programs consist of one or more \textit{modules}. A module forms the top level of a Mnemosyne program and represents a namespace within which types and functions may be defined. A module then consists of a series of one or more \textit{definitions} and \textit{expressions}. An expression is a value-level construct: all expressions can be evaluated to some value, either at run-time or at compile-time. Definitions, by contrast, are type-level constructs.
+
+\section{Syntax}
+
+Mnemosyne expressions may be written using either the traditional S-expression syntax or the indentation-sensitive I-expressions syntax.
+
+
+\subsection{Notation}
+Syntax descriptions are written using an extended BNF notation, as follows:
+\begin{description}
+    \item{\synt{symbol}} indicates a non-terminal symbol
+    \item{\lit{symbol}} indicates a terminal symbol
+    \item{\synt{symbol}* } indicates zero or more repetitions of \synt{symbol}
+    \item{\synt{symbol}+} indicates one or more repetitions of \synt{symbol}.
+    \item{$\varepsilon$} indicates the empty string
+\end{description}
+
+The following special symbols refer to specific Unicode characters:
+\begin{description}
+    \item{\synt{lambda}} Greek capital letter Lambda (U+03BB)
+    \item{\synt{arrow}} Rightwards arrow (U+2192)
+    \item{\synt{double arrow}} Rightwards double arrow (U+21D2)
+    \item{\synt{tab}} Character tabulation (U+0009)
+    \item{\synt{linefeed}} Linefeed (U+000A)
+    \item{\synt{return}} Carriage return (U+000D)
+    \item{\synt{space}} Space (U+0020)
+\end{description}
+
+\subsection{Lexical Syntax}
+% \newcommand{\into}{$\longrightarrow$}
+\setlength{\grammarindent}{6em}
+\begin{listing}[H]
+    \begin{grammar}
+        <lexeme> $\to$ <identifier> | <operator> | <keyword> | <literal>
+                    \alt <sigil> | <delimiter>
+
+        <sigil> $\to$ `@' | `&' | `*' | `\$'
+
+        <delimiter> $\to$ `(' | `)' | `{' | `}'
+
+        <identifier> $\to$ <initial> <subsequent>*
+
+        <initial> $\to$ <letter> | <special initial>
+
+        <subsequent> $\to$ <letter> | <number> | <special subsequent>
+
+        <letter> $\to$ `a' | `b' | `c' | ... | `z'
+                 \alt `A' | `B' | `C' | ... | `Z'
+
+        <number> $\to$ `0' | `1' | ... | `9'
+
+        <special initial> $\to$ `+' | `-' | `*' | `<' | `>' | `='
+                          \alt `!' | `:' | `\%' | `^'
+
+        <special subsequent> $\to$ <special initial> | `\''
+
+        <keyword> $\to$ `and' | `begin'  | `borrow' | `case' | `cond'
+                  \alt `class' | `data' | `define' | `defn' | `def'
+                  \alt `delay'| `do' | `else' | `if' | `instance'
+                  \alt `impl` | `lambda' | `let' | `let*' | `letrec'
+                  \alt `or' | `quasiquote' | `quote' | `ref' | `set!'
+                  \alt `struct' | `trait' | `type' | `typeclass' | `union'
+                  \alt `unquote'| `unquote-splicing'
+                  \alt <builtin type>
+
+        <builtin type> $\to$ `i8' | `i16' | `i32' | `i64' | `int'
+                        \alt `u8' | `ui6` | `u32' | `u64' | `uint'
+                        \alt `f32' | `f64' | `float' | `double'
+                        \alt `bool' | `string'
+
+    \end{grammar}
+    \caption{Mnemosyne lexical syntax.}
+\end{listing}
