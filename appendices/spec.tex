@@ -17,7 +17,6 @@ All Mnemosyne programs consist of one or more \textit{modules}. A module forms t
 
 Mnemosyne expressions may be written using either the traditional S-expression syntax or the indentation-sensitive I-expressions syntax.
 
-
 \subsection{Notation}
 Syntax descriptions are written using an extended BNF notation, as follows:
 \begin{description}
@@ -39,8 +38,12 @@ The following special symbols refer to specific Unicode characters:
     \item{\synt{space}} Space (U+0020)
 \end{description}
 
+Finally, the symbol \synt{any} refers to any character.
+
 \subsection{Lexical Syntax}
 % \newcommand{\into}{$\longrightarrow$}
+Note: \Cref{sec:code:parser} contains a source code listing for the Mnemosyne parser, and should be referred to to answer specific questions regarding how the reference Mnemosyne implementation handles specific characters.
+
 \setlength{\grammarindent}{6em}
 % \begin{listing}[H]
     \begin{grammar}
@@ -81,6 +84,22 @@ The following special symbols refer to specific Unicode characters:
                         \alt `f32' | `f64' | `float' | `double'
                         \alt `bool' | `string'
 
+        <comment> $\to$ `;' <any>* <line ending>
+                  \alt \lit{\#|} <any>* \lit{|\#}
+
     \end{grammar}
     % \caption{Mnemosyne lexical syntax.}
 % \end{listing}
+
+\subsection{Program Syntax}
+
+\begin{grammar}
+<program> $\to$ <module>+
+
+<module> $\to$ <module-def> <definition>*
+
+<module-def> $\to$ `(' `mod' <identifier> <exports-clause> `)'
+
+<exports-clause> $\to$ `(' `exports' <identifier>+ `)'
+                \alt $\varepsilon$
+\end{grammar}
