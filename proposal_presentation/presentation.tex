@@ -52,6 +52,21 @@ A \alert<1->{functional} systems programming language with compile-time memory m
 
 \begin{frame}
 \huge What is Mnemosyne? \normalsize \\
+A \alert<1->{functional} systems programming language with compile-time memory management.
+\begin{itemize}
+\item
+\textbf{Mnemosyne is inspired by:}
+    \begin{itemize}
+        \item\textbf{Lisp}'s syntax and homoiconicity
+        \item\textbf{Haskell and ML}'s typeclasses, pattern matching and monads
+        \item\textbf{Rust}'s memory management
+    \end{itemize}
+
+\end{itemize}
+\end{frame}
+
+\begin{frame}
+\huge What is Mnemosyne? \normalsize \\
 A functional \alert<1->{systems programming} language with compile-time memory management.
 \begin{itemize}
 \item<1->
@@ -75,9 +90,32 @@ A functional systems programming language with \alert<1->{compile-time memory ma
     \item<2-> \textbf{Why?} C manages memory at compile-time
     \begin{itemize}
         \item<3-> Most languages manage memory through garbage collection (GC)~\cite{Bartley:2003:GC:1074100.1074419}
-        \item<3-> This hurts performance and is unsuitable for most low-level systems
-        \item<3-> C programmers must manage memory manually (\texttt{malloc()} and \texttt{free()})
+        \item<3-> GC is unsuitable for most low-level systems
+        \item<3-> C programmers manage memory manually (\texttt{malloc()} and \texttt{free()})
     \end{itemize}
+\end{itemize}
+\end{frame}
+
+\begin{frame}
+\huge What is Mnemosyne? \normalsize \\
+A functional systems programming language with \alert<1->{compile-time memory management}.
+\begin{itemize}
+    \item \textbf{Manual memory management leads to errors} such as buffer overflows, memory leaks, and null pointer dereferences
+    \item \textbf{What if there was another way?}
+\end{itemize}
+\end{frame}
+
+\begin{frame}
+\huge What is Mnemosyne? \normalsize \\
+A functional systems programming language with \alert<1->{compile-time memory management}.
+\begin{itemize}
+    \item Mnemosyne manages memory automatically at compile time
+    \item \textbf{How?}
+    \begin{itemize}
+    \item<2-> Stack allocation
+    \item<2-> Ownership analysis
+    \item<2-> Controlled mutability
+\end{itemize}
 \end{itemize}
 \end{frame}
 
