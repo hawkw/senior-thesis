@@ -42,17 +42,11 @@ A \alert<1->{functional} systems programming language with compile-time memory m
 \begin{itemize}
 \item<2->
 \textbf{Functional programming} models computation as the evaluation of functions~\cite{Wise:2003:FP:1074100.1074416,hughes1989functional}
-    \item<2-> Focus on:
-    \begin{itemize}
-        \item<2-> Immutability
-        \item<2-> Purity
-        \item<2-> Function composition
+\begin{itemize}
+    \item<2-> \textbf{It focuses on} immutability, purity, and function composition
+    \item<3> \textbf{Advantages:} expressiveness~\cite{hughes1989functional,hudak1994haskell}, modularity (easy to test and parallelize)~\cite{hughes1989functional,hudak1994haskell}, safety
     \end{itemize}
-    \item<3> Advantages: \begin{itemize}
-        \item<3> Expressiveness~\cite{hughes1989functional,hudak1994haskell}
-        \item<3> Modular (easy to test and parallelize)~\cite{hughes1989functional,hudak1994haskell}
-        \item<3> Safe
-    \end{itemize}
+
 \end{itemize}
 \end{frame}
 
@@ -62,12 +56,12 @@ A functional \alert<1->{systems programming} language with compile-time memory m
 \begin{itemize}
 \item<1->
     \textbf{Systems programming} is the implementation of software that provide services to other software~\cite{Narten:2003:SP:1074100.1074850,Shapiro:2006:PLC:1215995.1216004}.
-    \begin{itemize}
-        \item<2->{Operating systems}
-        \item<2->{Device drivers}
-        \item<2->{Language runtimes}
-        \item<2->...
-    \end{itemize}
+    % \begin{itemize}
+    %     \item<2->{Operating systems}
+    %     \item<2->{Device drivers}
+    %     \item<2->{Language runtimes}
+    %     \item<2->...
+    % \end{itemize}
     \item <3-> High quality systems are necessary for high quality applications.
 \item <4-> But there are some significant challenges in this field~\cite{whyrust,Shapiro:2006:PLC:1215995.1216004}
 \end{itemize}
@@ -77,11 +71,15 @@ A functional \alert<1->{systems programming} language with compile-time memory m
 \huge What is Mnemosyne? \normalsize \\
 A functional systems programming language with \alert<1->{compile-time memory management}.
 \begin{itemize}
-    \item<1-> We'll discuss this in a moment
-    \item<1-> First, some background
+    \item Almost all systems programming today is done in C and C++
+    \item<2-> \textbf{Why?} C manages memory at compile-time
+    \begin{itemize}
+        \item<3-> Most languages manage memory through garbage collection (GC)~\cite{Bartley:2003:GC:1074100.1074419}
+        \item<3-> This hurts performance and is unsuitable for most low-level systems
+        \item<3-> C programmers must manage memory manually (\texttt{malloc()} and \texttt{free()})
+    \end{itemize}
 \end{itemize}
 \end{frame}
-
 
 \begin{frame}
     \huge References \normalsize \\
