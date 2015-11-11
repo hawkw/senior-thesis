@@ -68,7 +68,7 @@ Note: \Cref{sec:code:parser} contains a source code listing for the Mnemosyne pa
         <special initial> $\to$ `+' | `-' | `*' | `<' | `>' | `='
                           \alt `!' | `:' | `\%' | `^'
 
-        <special subsequent> $\to$ <special initial> | `\''
+        <special subsequent> $\to$ <special initial> | `\'' | `_'
 
         <keyword> $\to$ `and' | `begin'  | `borrow' | `case' | `cond'
                   \alt `class' | `data' | `define' | `defn' | `def'
@@ -102,4 +102,6 @@ Note: \Cref{sec:code:parser} contains a source code listing for the Mnemosyne pa
 
 <exports-clause> $\to$ `(' `exports' <identifier>+ `)'
                 \alt $\varepsilon$
+
+
 \end{grammar}
