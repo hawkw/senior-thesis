@@ -32,10 +32,10 @@ The following special symbols refer to specific Unicode characters:
     \item{\synt{lambda}} Greek capital letter Lambda (U+03BB)
     \item{\synt{arrow}} Rightwards arrow (U+2192)
     \item{\synt{double arrow}} Rightwards double arrow (U+21D2)
-    \item{\synt{tab}} Character tabulation (U+0009)
-    \item{\synt{linefeed}} Linefeed (U+000A)
-    \item{\synt{return}} Carriage return (U+000D)
-    \item{\synt{space}} Space (U+0020)
+    % \item{\synt{tab}} Character tabulation (U+0009)
+    % \item{\synt{linefeed}} Linefeed (U+000A)
+    % \item{\synt{return}} Carriage return (U+000D)
+    % \item{\synt{space}} Space (U+0020)
 \end{description}
 
 Finally, the symbol \synt{any} refers to any character.
@@ -47,6 +47,10 @@ Note: \Cref{sec:code:parser} contains a source code listing for the Mnemosyne pa
 \setlength{\grammarindent}{6em}
 % \begin{listing}[H]
     \begin{grammar}
+        <program> $\to$ <token>+
+
+        <token> $\to$ <lexeme> | <atmosphere>
+
         <lexeme> $\to$ <identifier> | <operator> | <keyword> | <literal>
                     \alt <sigil> | <delimiter>
 
@@ -73,16 +77,25 @@ Note: \Cref{sec:code:parser} contains a source code listing for the Mnemosyne pa
         <keyword> $\to$ `and' | `begin'  | `borrow' | `case' | `cond'
                   \alt `class' | `data' | `define' | `defn' | `def'
                   \alt `delay'| `do' | `else' | `if' | `instance'
-                  \alt `impl` | `lambda' | `let' | `let*' | `letrec'
-                  \alt `or' | `quasiquote' | `quote' | `ref' | `set!'
-                  \alt `struct' | `trait' | `type' | `typeclass' | `union'
-                  \alt `unquote'| `unquote-splicing'
+                  \alt `impl' | `lambda' | `let' | `let*' | `letrec'
+                  \alt `mod' | `or' | `quasiquote' | `quote' | `ref'
+                  \alt `set!' | `struct' | `trait' | `type' | `typeclass'
+                  \alt `union' |  `unquote' | `unquote-splicing'
+                  \alt <lambda> | <arrow> | <fat arrow>
                   \alt <builtin type>
+                  \alt \lit{|}  | `->' | `=>` | `,'
 
         <builtin type> $\to$ `i8' | `i16' | `i32' | `i64' | `int'
                         \alt `u8' | `ui6` | `u32' | `u64' | `uint'
                         \alt `f32' | `f64' | `float' | `double'
                         \alt `bool' | `string'
+
+        <atmosphere> $\to$ <whitespace> | <comment>
+
+        <whitespace> $\to$ ` '
+                    \alt tab (U+0009)
+                    \alt linefeed (U+000A)
+                    \alt carriage return (U+000D)
 
         <comment> $\to$ `;' <any>* <line ending>
                   \alt \lit{\#|} <any>* \lit{|\#}

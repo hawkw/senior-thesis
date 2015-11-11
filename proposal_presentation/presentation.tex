@@ -1,7 +1,7 @@
 \documentclass{beamer}
 % \usepackage{listings}
 \usepackage{color}
-
+\usepackage{lmodern}
 %% -- Referencing -------------------------------------------------------
 \usepackage{hyperref}
 \usepackage{cleveref}
@@ -16,7 +16,7 @@
            , hyperref
            ]{biblatex}
 \bibliography{../bibliography/thesis.bib}
-\renewcommand*{\bibfont}{\footnotesize}
+\renewcommand*{\bibfont}{\scriptsize}
 
 \usecolortheme[dark]{solarized}
 
@@ -30,7 +30,7 @@
 
 \begin{frame}
 \huge What is Mnemosyne? \normalsize \\
-\A functional systems programming language with compile-time memory management.
+A functional systems programming language with compile-time memory management.
 \begin{itemize}
     \item But what does that mean?
 \end{itemize}
@@ -38,16 +38,20 @@
 
 \begin{frame}
 \huge What is Mnemosyne? \normalsize \\
-A \alert<1-3>{functional} systems programming language with compile-time memory management.
+A \alert<1->{functional} systems programming language with compile-time memory management.
 \begin{itemize}
-\item<2-3>
-    \textbf{Functional programming} models computation as the evaluation of functions~\cite{Wise:2003:FP:1074100.1074416}
-    \item<2-3> Focus on \textit{purity} and \textit{immutability}
+\item<2->
+\textbf{Functional programming} models computation as the evaluation of functions~\cite{Wise:2003:FP:1074100.1074416,hughes1989functional}
+    \item<2-> Focus on:
+    \begin{itemize}
+        \item<2-> Immutability
+        \item<2-> Purity
+        \item<2-> Function composition
+    \end{itemize}
     \item<3> Advantages: \begin{itemize}
-        \item<3> Expressive
-        \item<3> Easy to tests
+        \item<3> Expressiveness~\cite{hughes1989functional,hudak1994haskell}
+        \item<3> Modular (easy to test and parallelize)~\cite{hughes1989functional,hudak1994haskell}
         \item<3> Safe
-        \item<3> Paralellizable
     \end{itemize}
 \end{itemize}
 \end{frame}
@@ -59,22 +63,30 @@ A functional \alert<1->{systems programming} language with compile-time memory m
 \item<1->
     \textbf{Systems programming} is the implementation of software that provide services to other software~\cite{Narten:2003:SP:1074100.1074850,Shapiro:2006:PLC:1215995.1216004}.
     \begin{itemize}
-    \item<2>{Operating systems}
-    \item<2>{Device drivers}
-    \item<2>{Language runtimes}
-    \item<2>...\end{itemize}
+        \item<2->{Operating systems}
+        \item<2->{Device drivers}
+        \item<2->{Language runtimes}
+        \item<2->...
+    \end{itemize}
+    \item <3-> High quality systems are necessary for high quality applications.
+\item <4-> But there are some significant challenges in this field~\cite{whyrust,Shapiro:2006:PLC:1215995.1216004}
 \end{itemize}
 \end{frame}
 
 \begin{frame}
+\huge What is Mnemosyne? \normalsize \\
+A functional systems programming language with \alert<1->{compile-time memory management}.
+\begin{itemize}
+    \item<1-> We'll discuss this in a moment
+    \item<1-> First, some background
+\end{itemize}
+\end{frame}
+
+
+\begin{frame}
     \huge References \normalsize \\
 
-    \begingroup
-    {\small
-    \setlength{\emergencystretch}{1em} % this fixes overfull hboxes in citations
-                                       % (according to the interwebs)
-    \printbibliography}
-    \endgroup
+    \printbibliography
 \end{frame}
 
 \end{document}
