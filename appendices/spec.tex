@@ -117,4 +117,19 @@ Note: \Cref{sec:code:parser} contains a source code listing for the Mnemosyne pa
                 \alt $\varepsilon$
 
 
+%% skip a bit
+<expr> $\to$ <deref expr> | <unwrap expr> | <pointer expr>
+
+<deref expr> $\to$ `(' \lit{\$} <expr> `)'
+             \alt \lit{\$} <expr>
+
+<unwrap expr> $\to$ `(' `?' <expr> <expr>`)'
+             \alt `(' `?' <expr> `)'
+             \alt `?'<expr>
+
+<pointer expr> $\to$ `(' <pointer sigil> <expr> `)'
+             \alt <pointer sigil> <expr>
+
+<pointer sigil> $\to$ `&' | `@' | `*'
+
 \end{grammar}
