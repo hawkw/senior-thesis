@@ -24,12 +24,12 @@
 \subtitle{A Functional Systems~Programming Language}
 \author[Hawk Weisman]{Hawk Weisman}
 \institute[Allegheny College]{Department of Computer Science \\ Allegheny College}
-\date{\today}
+\date{November 20\textsuperscript{th}, 2015}
 \begin{document}
 \maketitle
 
 \begin{frame}
-\huge{What is Mnemosyne?}\\
+\alert{\huge{What is Mnemosyne?}}\\
 \large{A functional systems programming language with compile-time automatic memory~management.} \normalsize
 \begin{itemize}
     \item But what does that mean?
@@ -37,7 +37,7 @@
 \end{frame}
 
 \begin{frame}
-\huge{What is Mnemosyne?}\\
+\alert{\huge{What is Mnemosyne?}}\\
 \large{A \alert<1->{functional} systems programming language with compile-time automatic memory~management.} \normalsize
 \begin{itemize}
 \item<2->
@@ -51,22 +51,22 @@
 \end{frame}
 
 \begin{frame}
-\huge{What is Mnemosyne?}\\
+\alert{\huge{What is Mnemosyne?}}\\
 \large{A \alert<1->{functional} systems programming language with compile-time automatic memory~management.}\normalsize
 \begin{itemize}
 \item
 \textbf{Mnemosyne is inspired by:}
     \begin{itemize}
-        \item\textbf{Lisp}'s syntax and homoiconicity
-        \item\textbf{Haskell and ML}'s typeclasses, pattern matching and monads
-        \item\textbf{Rust}'s memory management
+        \item\textbf{Lisp}'s syntax and homoiconicity~\cite{vanderhart2010macros,sicp}.
+        \item\textbf{Haskell and ML}'s typeclasses, pattern matching~\cite{maranget2007warnings,Krishnaswami:2009:FPM:1594834.1480927} and monads~\cite{jones2003haskell,hudak1992gentle,hudak1992report}
+        \item\textbf{Rust}'s memory management~\cite{whyrust,whyrust}
     \end{itemize}
 
 \end{itemize}
 \end{frame}
 
 \begin{frame}
-\huge{What is Mnemosyne?}\\
+\alert{\huge{What is Mnemosyne?}}\\
 \large{A functional \alert<1->{systems programming} language with compile-time automatic memory~management.}
 \normalsize
 \begin{itemize}
@@ -84,45 +84,70 @@
 \end{frame}
 
 \begin{frame}
-\huge{What is Mnemosyne?}\\
+\alert{\huge{What is Mnemosyne?}}\\
 \large{A functional systems programming language with \alert<1->{compile-time automatic memory~management}.}\normalsize
 \begin{itemize}
-    \item Almost all systems programming today is done in C and C++
+\item Almost all
+systems
+programming today is done in C+~\cite{Shapiro:2006:PLC:1215995.1216004,hawblitzel2004low}
+
     \item<2-> \textbf{Why?} C manages memory at compile-time
     \begin{itemize}
-        \item<3-> Most languages manage memory through garbage collection (GC)~\cite{Bartley:2003:GC:1074100.1074419}
-        \item<3-> GC is unsuitable for most low-level systems
-        \item<3-> C programmers manage memory manually (\texttt{malloc()} and \texttt{free()})
+        \item<3-> Most languages use through garbage collection (GC)~\cite{Bartley:2003:GC:1074100.1074419}
+        \item<3-> GC is unsuitable for most low-level systems~\cite{hawblitzel2004low,Shapiro:2006:PLC:1215995.1216004,Hertz:2005:QPG:1094811.1094836}
+        \item<3-> C manages memory manually (\texttt{malloc()}/\texttt{free()})~\cite{Shapiro:2006:PLC:1215995.1216004,kernighan1988c,Hertz:2005:QPG:1094811.1094836}
     \end{itemize}
 \end{itemize}
 \end{frame}
 
 \begin{frame}
-\huge{What is Mnemosyne?}\\
+\alert{\huge{What is Mnemosyne?}}\\
 \large{A functional systems programming language with \alert<1->{compile-time automatic memory~management}.}\normalsize
 \begin{itemize}
-    \item \textbf{Manual memory management leads to errors} such as buffer overflows, memory leaks, and null pointer dereferences
+    \item \textbf{Manual memory management leads to errors} such as buffer overflows, memory leaks, and null pointer dereferences~\cite{Shapiro:2006:PLC:1215995.1216004,hawblitzel2004low}
     \item \textbf{What if there was another way?}
 \end{itemize}
 \end{frame}
 
 \begin{frame}
-\huge{What is Mnemosyne?}\\
+\alert{\huge{What is Mnemosyne?}}\\
 \large{A functional systems programming language with \alert<1->{compile-time automatic memory~management}.}\normalsize
 \begin{itemize}
     \item Mnemosyne manages memory automatically at compile time
     \item \textbf{How?}
     \begin{itemize}
-    \item<2-> Stack allocation
-    \item<2-> Ownership analysis
-    \item<2-> Controlled mutability
+    \item<2-> Stack allocation~\cite{Hanson:1990:ESA:91556.91603,Corry:2006:OSA:1133956.1133978,Matsakis:2014:RL:2663171.2663188}
+    \item<2-> Ownership analysis~\cite{Matsakis:2014:RL:2663171.2663188}
+    \item<2-> Controlled mutability~\cite{Matsakis:2014:RL:2663171.2663188}
 \end{itemize}
 \end{itemize}
 \end{frame}
 
 \begin{frame}
-    \huge References \normalsize \\
+\alert{\huge{Methods}}\\
+\large{Manganese, the Mnemosyne compiler, is implemented in Rust}\normalsize
+\begin{itemize}
+    \item \textbf{Combinator parsing}~\cite{Danielsson:2010:TPC:1932681.1863585,frost2008parser,swierstra2001combinator} using \texttt{combine} and \texttt{combine-language}
+    \item \textbf{Analysis} including type checking and lifetime analysis~\cite{Matsakis:2014:RL:2663171.2663188,balvarro1988lifetime}
+    \item \textbf{Code generation} using \texttt{librustc-llvm}~\cite{Lattner:2004:LCF:977395.977673}
+\end{itemize}
+\end{frame}
 
+\begin{frame}
+\alert{\huge{Methods}}\\
+\large{Assessing Mnemosyne's correctness}\normalsize
+\begin{itemize}
+    \item \textbf{Unit and integration testing} to validate the compiler implementation
+    \item \textbf{Demonstration} by implementing example code, including parts of the prelude
+    \item \textbf{Benchmarking} compiled Mnemosyne binaries
+\end{itemize}
+\end{frame}
+
+\begin{frame}[t,allowframebreaks]
+    \frametitle{\huge{References}}
+    \scriptsize
+    % \bibliographystyle{plain}
+    % \bibliography{../bibliography/thesis.bib}
     \printbibliography
 \end{frame}
 
