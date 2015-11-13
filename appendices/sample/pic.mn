@@ -1,0 +1,88 @@
+; Support for the 8259 Programmable Interrupt Controller.
+;
+; The 8259 PIC controls all of our IO IRQs. The PIC recieves IRQ requests
+; and feeds them to the CPU in order. An x86 system typically has two PICs,
+; PIC1 and PIC2, each of which provides 8 IRQs. Two PICs provide us with 15
+; unique IRQs, because one interrupt on the leader PIC is linked to interrupts
+; on the follower PIC.
+;
+; Mistakes were made, and Intel boneheadedly decided that it was a good idea
+; to map the vector offset of PIC1 to 8, so that it maps to interrupts
+; 8 ... 15 in the IDT. This conflicts with some of the interrupt numbers
+; used by CPU exceptions. Therefore, we must remap the PIC vectors so that
+; PIC1 starts at 32 and PIC2 at 40.
+(mod Pics (exports end-pic-interrupt
+                   initialize
+                   IRQ)
+          (using   x86/io/Port
+                   x86/io/out8))
+
+(define OFFSET u8 0x20)
+
+
+
+(define Command data #(as(byte)) ; (as byte) attribute hints to the compiler
+    (| (Mode08086 0x01)          ; that this data type can be represented as a
+       (ReadIRR   0x0a)          ; single byte
+       (ReadISR   0x0b)
+       (Init      0x11)
+       (EndIRQ    0x20)
+    ))
+
+
+(define IRQ data #(as(byte))
+    (| (Timer         {OFFSET + 0  }) ; The system timer (IRQ 0)
+       (PS2-Keyboard  {OFFSET + 1  }) ; PS/2 keyboard controller (IRQ 1)
+       (PIC2-Cascade  {OFFSET + 2  }) ; Cascade IRQ for PIC 2 (IRQ 2)
+       (COM2          {OFFSET + 3  }) ; COM2 serial port (IRQ 3)
+       (COM1          {OFFSET + 4  }) ; COM1 serial port (IRQ 4)
+       (LPT2          {OFFSET + 5  }) ; Line printer 2 (IRQ 5)
+       (Floppy        {OFFSET + 6  }) ; Floppy disc controller (IRQ 6)
+       (LPT1          {OFFSET + 7  }) ; Line printer 1 (IRQ 7)
+       (RTC-Timer     {OFFSET + 8  }) ; System CMOS clock (IRQ 8)
+       ; IRQ 9 reserved
+       ; IRQ 10 reserved
+       (PS2-Mouse     {OFFSET + 12 }) ; PS/2 mouse controller (IRQ 12)
+       (FPU           {OFFSET + 13 }) ; Floating point coproccessor (IRQ 13)
+       (ATA-Primary   {OFFSET + 14 }) ; Primary ATA controller (IRQ 14)
+       (ATA-Secondary {OFFSET + 15 }) ; Secondary ATA controller (IRQ 15)
+    ))
+
+(define PIC data
+    '( (offset u8) (cmd-port Port) (data-port Port) ))
+
+(define BothPICs data '( (pic1 PIC) (pic2 PIC)) )
+
+(define send-command (fn {&PIC -> Command -> ()}
+       ((pic cmd) (out8 pic.cmd-port cmd))))
+
+(define IRQHandler class (=> a)
+    ((handles? {&a -> IRQ -> bool})
+     (end-irq  {&a -> IRQ -> ()})))
+
+(instance (IRQHandler PIC)
+    ; Returns true if this PIC handles the given IRQ
+    ; (i.e. if the IRQ is within the range between the PIC's
+    ; (base offset and the PIC's base offset plus 8))
+    (defn handles? {&PIC -> IRQ -> bool}
+        ((handles? self irq) (let ([base self.offset][max (+ 8 base)]) {
+            irq >= base and irq < max
+        })))
+
+    (defn end-irq {&PIC -> IRQ -> ()}
+        ((end-irq self _) (send-command self Command.EndIRQ)))
+)
+
+(instance (IRQHandler BothPICs)
+
+    (defn handles? {&BothPICs -> IRQ -> bool}
+        ((handles? self irq) {
+            { self.pic1 handles? irq } or { self.pic2 handles? irq }
+        })))
+
+    (defn end-irq {&BothPICs -> IRQ -> ()}
+        ((end-irq self irq)
+            ((if { self.pic2 handles? irq }
+                 { self.pic2 end-irq irq} )
+              { self.pic1 end-irq irq } )))
+)
