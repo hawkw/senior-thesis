@@ -118,7 +118,16 @@ Note: \Cref{sec:code:parser} contains a source code listing for the Mnemosyne pa
 
 
 %% skip a bit
-<expr> $\to$ <deref expr> | <unwrap expr> | <pointer expr>
+<expr> $\to$ <s-expr> | <i-expr> | <c-expr> | <n-expr>
+        \alt <deref expr> | <unwrap expr> | <pointer expr>
+        \alt <literal>
+
+<s-expr> $\to$ `(' <operator>  <expr>* `)'
+
+<c-expr> $\to$ `{' <expr> <operator> <c-expr body>+ `}'
+
+<c-expr body> $\to$ <expr> <operator>
+              \alt <expr>
 
 <deref expr> $\to$ `(' \lit{\$} <expr> `)'
              \alt \lit{\$} <expr>
