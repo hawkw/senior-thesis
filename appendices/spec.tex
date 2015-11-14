@@ -6,18 +6,13 @@
 %   *******************************************************************
 
 \chapter{The Mnemosyne Programming Language: An Abridged Description}\label{app:spec}
+\setlength{\grammarindent}{6em}
 
 The following is an abbreviated description of the Mnemosyne programming language. It is for illustrative purposes only and is not intended as a complete formal specification.
 
-\section{Program Structure}
+Please note that as the Mnemosyne compiler is currently an early prototype, it may not behave exactly as described in this document. While the compiler remains in the prototype stage (i.e., prior to the release of version 1.0.0), please regard this document as the only description of the canonical behaviour of a standards-compliant Mnemosyne compiler.
 
-All Mnemosyne programs consist of one or more \textit{modules}. A module forms the top level of a Mnemosyne program and represents a namespace within which types and functions may be defined. A module then consists of a series of one or more \textit{definitions} and \textit{expressions}. An expression is a value-level construct: all expressions can be evaluated to some value, either at run-time or at compile-time. Definitions, by contrast, are type-level constructs.
-
-\section{Syntax}
-
-Mnemosyne expressions may be written using either the traditional S-expression syntax or the indentation-sensitive I-expressions syntax.
-
-\subsection{Notation}
+\subsection{Syntactic Notation}
 Syntax descriptions are written using an extended BNF notation, as follows:
 \begin{description}
     \item{\synt{symbol}} indicates a non-terminal symbol
@@ -32,19 +27,26 @@ The following special symbols refer to specific Unicode characters:
     \item{\synt{lambda}} Greek capital letter Lambda (U+03BB)
     \item{\synt{arrow}} Rightwards arrow (U+2192)
     \item{\synt{double arrow}} Rightwards double arrow (U+21D2)
-    % \item{\synt{tab}} Character tabulation (U+0009)
-    % \item{\synt{linefeed}} Linefeed (U+000A)
-    % \item{\synt{return}} Carriage return (U+000D)
-    % \item{\synt{space}} Space (U+0020)
+    \item{\synt{tab}} Character tabulation (U+0009)
+    \item{\synt{linefeed}} Linefeed (U+000A)
+    \item{\synt{return}} Carriage return (U+000D)
+    \item{\synt{space}} Space (U+0020)
 \end{description}
 
 Finally, the symbol \synt{any} refers to any character.
 
-\subsection{Lexical Syntax}
+\section{Program Structure}
+
+All Mnemosyne programs consist of one or more \textit{modules}. A module forms the top level of a Mnemosyne program and represents a namespace within which types and functions may be defined. A module then consists of a series of one or more \textit{definitions} (\Cref{sec:def}) and \textit{expressions} (\Cref{sec:expr}). An expression is a value-level construct: all expressions can be evaluated to some value, either at run-time or at compile-time. Definitions, by contrast, are type-level constructs.
+
+\section{Lexical Syntax}\label{sec:lexical}
+This section describes the lexical structure of Mnemosyne programs.
+
+Mnemosyne uses the Unicode character set. While Mnemosyne programs written in the ASCII character set are considered valid, a standards-compiliant Mnemosyne compiler should be capable of recognizing Unicode characters. Unicode support is necessary both because certain non-alphanumeric Unicode characters not present in ASCII have defined meanings in Mnemosyne programs, and in order to ensure that Mnemosyne programs may be written in languages other than English. Note that Mnemosyne's lexical syntax then depends on the properties of the Unicode encoding as defined by the Unicode consortium. A standards-compilant Mnemosyne compiler should ensure compatiblity with new versions of the Unicode standard as they are released.
+
 % \newcommand{\into}{$\longrightarrow$}
 Note: \Cref{sec:code:parser} contains a source code listing for the Mnemosyne parser, and should be referred to to answer specific questions regarding how the reference Mnemosyne implementation handles specific characters.
 
-\setlength{\grammarindent}{6em}
 % \begin{listing}[H]
     \begin{grammar}
         <program> $\to$ <token>+
@@ -92,10 +94,10 @@ Note: \Cref{sec:code:parser} contains a source code listing for the Mnemosyne pa
 
         <atmosphere> $\to$ <whitespace> | <comment>
 
-        <whitespace> $\to$ ` '
-                    \alt tab (U+0009)
-                    \alt linefeed (U+000A)
-                    \alt carriage return (U+000D)
+        <whitespace> $\to$ <space>
+                    \alt <tab> (U+0009)
+                    \alt <linefeed> (U+000A)
+                    \alt <carriage return> (U+000D)
 
         <comment> $\to$ `;' <any>* <line ending>
                   \alt \lit{\#|} <any>* \lit{|\#}
@@ -103,8 +105,42 @@ Note: \Cref{sec:code:parser} contains a source code listing for the Mnemosyne pa
     \end{grammar}
     % \caption{Mnemosyne lexical syntax.}
 % \end{listing}
+\section{Expressions}\label{sec:expr}
 
-\subsection{Program Syntax}
+Mnemosyne \textit{expressions} form the basic building block from which all Mnemosyne programs are constructed. An expression is defined as any sequence of Mnemosyne tokens which may be resolved to a value-level result, either by the compiler or during the execution of a program. This section describes the syntax and informal semantics of Mnemosyne expressions.
+
+\begin{grammar}
+    <expr> $\to$ <s-expr> | <i-expr> | <c-expr> | <n-expr>
+            \alt <deref expr> | <unwrap expr> | <pointer expr>
+            \alt <literal>
+
+    <s-expr> $\to$ `(' <operator>  <expr>* `)'
+
+    <c-expr> $\to$ `{' <expr> <operator> <c-expr body>+ `}'
+
+    <c-expr body> $\to$ <expr> <operator>
+                   \alt <expr>
+
+    <n-expr> $\to$ <access> `(' <expr>* `)'
+              \alt <access> `.' <identifier>
+              \alt <access> `.' <n-expr>
+
+    <access> $\to$ <deref-expr> | <identifier>
+
+    <deref expr> $\to$ `(' \lit{\$} <expr> `)'
+                  \alt \lit{\$} <expr>
+
+    <unwrap expr> $\to$ `(' `?' <expr> <expr>`)'
+                   \alt `(' `?' <expr> `)'
+                   \alt `?'<expr>
+
+    <pointer expr> $\to$ `(' <pointer sigil> <expr> `)'
+                    \alt <pointer sigil> <expr>
+
+    <pointer sigil> $\to$ `&' | `@' | `*'
+\end{grammar}
+
+\subsection{Program Structure}
 
 \begin{grammar}
 <program> $\to$ <module>+
@@ -118,27 +154,6 @@ Note: \Cref{sec:code:parser} contains a source code listing for the Mnemosyne pa
 
 
 %% skip a bit
-<expr> $\to$ <s-expr> | <i-expr> | <c-expr> | <n-expr>
-        \alt <deref expr> | <unwrap expr> | <pointer expr>
-        \alt <literal>
-
-<s-expr> $\to$ `(' <operator>  <expr>* `)'
-
-<c-expr> $\to$ `{' <expr> <operator> <c-expr body>+ `}'
-
-<c-expr body> $\to$ <expr> <operator>
-              \alt <expr>
-
-<deref expr> $\to$ `(' \lit{\$} <expr> `)'
-             \alt \lit{\$} <expr>
-
-<unwrap expr> $\to$ `(' `?' <expr> <expr>`)'
-             \alt `(' `?' <expr> `)'
-             \alt `?'<expr>
-
-<pointer expr> $\to$ `(' <pointer sigil> <expr> `)'
-             \alt <pointer sigil> <expr>
-
-<pointer sigil> $\to$ `&' | `@' | `*'
-
 \end{grammar}
+
+\section{Definitions}\label{sec:def}
