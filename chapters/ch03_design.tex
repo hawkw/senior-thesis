@@ -9,13 +9,30 @@
 
 \section{Design Goals} \label{sec:goals}
 
-The following
+The following characteristics are major design goals for Mnemosyne:
+\begin{enumerate}
+    \item Support for systems programming
+    \item Safety
+    \item Performance
+    \item Support for quality programming
+    \item Expressiveness
+\end{enumerate}
+
+\paragraph{Expressiveness}
+%
+% Formally, the \textit{expressiveness} (or \textit{expressive power}) refers to the size of the set of all ideas or concepts capable of being communicated by a language. As a general-purpose programming language, Mnemosyne is intended to be Turing-complete; meaning that theoretically, all possible computations can be expressed in Mnemosyne. In the context of general-purpose, Turing-complete languages, this term is more foten used to refer to the
 
 \section{Characteristics} \label{sec:characteristics}
 
 Programming languages may be categorized along a number of axes: whether it is compiled or interpreted, its typing discipline, what programming paradigms it is inteded to support, its method of memory management, and others.
 
-Mnemosyne is a \textit{statically-typed} programming language, meaning that the analysis
+Mnemosyne is a \textit{statically-typed} programming language, meaning that the analysis of the types of language constructs, such as variables and expressions, are known to the compiler at compile-time. This is in contrast to \textit{dynamically-typed} languages, such as a majority of the Lisp family, in which types are determined at runtime.
+
+A major advantage of static typing lies in its increased reliability. If we suppose that some operations are not supported on all types, and that attempting these operations on types which are not capable of carrying them out results in an error, as is the case in almost all programming languages, then such \textit{type errors} are a cadegory of potential error which may occur in our programs. In a statically-typed language, the compiler has the capacity to reason about types, and thus these type errors can be detected at compile-time; while in a dynamically typed language, type errors will occur during the program's execution. Moving the detection of an entire category of errors from runtime to compile-time is a major boon to the language's reliability and safety.
+
+% Furthermore, many programming languages use their type systems to encode other potential categories of errors in their type systems. If, for example, we encode some property such as the lengths of arrays at the type level,
+
+Additionally, giving the compiler the capacity to reason about types permits us to perform a number of optimizations that are not possible in dynamically-typed languages.
 % \section{Test Environment}
 % Algorithm \ref{widgmin} (from \cite{Fiori:2013}) shows a high-level description of an
 % algorithm. There are many options for the display of
