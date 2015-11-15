@@ -159,6 +159,7 @@ Mnemosyne \textit{expressions} form the basic building block from which all Mnem
 \section{Definitions}\label{sec:def}
 
 \subsection{Attributes}\label{sub:attr}
+% \begin{listing}
 \begin{grammar}
 <function-attrs> $\to$ \lit{\#(} <function-attr>* \lit{)}
 
@@ -167,13 +168,14 @@ Mnemosyne \textit{expressions} form the basic building block from which all Mnem
                  \alt <inline>
 
 <inline> $\to$ `inline'
-          \alt `inline-never'
           \alt `inline-always'
 
 <data-attr> $\to$ <any-attr>
             \alt `(' `as' <as-attr>+ `)'
             \alt `as' `(' <as-attr>+ `)'
 
-<as-attr> $\to$ `C` | `packed`
-          \alt `u8` | `u16` | `u32` | `u64`
+<as-attr> $\to$ `C' | `packed'
+          \alt `u8' | `u16' | `u32' | `u64'
 \end{grammar}
+% \caption{Grammar for Mnemosyne attributes.}
+% \end{listing}
