@@ -6,11 +6,10 @@
 ; unique IRQs, because one interrupt on the leader PIC is linked to interrupts
 ; on the follower PIC.
 ;
-; Mistakes were made, and Intel boneheadedly decided that it was a good idea
-; to map the vector offset of PIC1 to 8, so that it maps to interrupts
-; 8 ... 15 in the IDT. This conflicts with some of the interrupt numbers
-; used by CPU exceptions. Therefore, we must remap the PIC vectors so that
-; PIC1 starts at 32 and PIC2 at 40.
+; Since Intel decided that it was a good idea to map the vector offset of PIC1
+; to 8, so that it maps to interrupts 8 ... 15 in the IDT. This conflicts with
+; some of the interrupt numbers used by CPU exceptions. Therefore, we must
+; remap the PIC vectors so that PIC1 starts at 32 and PIC2 at 40.
 (mod Pics (exports end-pic-interrupt
                    initialize
                    IRQ)
@@ -19,8 +18,9 @@
 
 (define OFFSET u8 0x20)
 
-
-
+; Sum type representing the command codes that can be sent to a PIC.
+;
+; A Command is defined as one of a set of specific one-byte numbers.
 (define Command data #(as(byte)) ; (as byte) attribute hints to the compiler
     (| (Mode08086 0x01)          ; that this data type can be represented as a
        (ReadIRR   0x0a)          ; single byte
@@ -30,6 +30,10 @@
     ))
 
 
+; Sum type representing each of the interrupt vectors available on our two PICs.
+;
+; We calculate the vectors at compile-time by adding the global offset to each
+; interrupt's vector.
 (define IRQ data #(as(byte))
     (| (Timer         {OFFSET + 0  }) ; The system timer (IRQ 0)
        (PS2-Keyboard  {OFFSET + 1  }) ; PS/2 keyboard controller (IRQ 1)
@@ -48,19 +52,40 @@
        (ATA-Secondary {OFFSET + 15 }) ; Secondary ATA controller (IRQ 15)
     ))
 
+; A PIC is a record type consisting of:
+;   + an offset number
+;   + a command port
+;   + and a data port.
 (define PIC data
-    '( (offset u8) (cmd-port Port) (data-port Port) ))
+    '( (offset u8)      ; offset at which this PIC's interrupt vectors start
+       (cmd-port Port)  ; port for sending commands to the PIC
+       (data-port Port) ; port for sending and receiving data to/from the PIC
+       ))
 
-(define BothPICs data '( (pic1 PIC) (pic2 PIC)) )
+; BothPICs is a record type consisting of the system's two chained PICs
+(define BothPICs data
+    '( (pic1 PIC) (pic2 PIC)) )
 
+; Function to send a command to a PIC.
+;
+; This is safe because it only accepts commands in the Commands sum type,
+; and thus will not accept an invalid command as an argument.
 (define send-command (fn {&PIC -> Command -> ()}
        ((pic cmd) (out8 pic.cmd-port cmd))))
 
+; Definition of the IRQHandler typeclass for any type capable of handling IRQs
+;
+; We define this typeclass in order to share some functionality across
+; individual PICs and both PICs
 (define IRQHandler class (=> a)
-    ((handles? {&a -> IRQ -> bool})
-     (end-irq  {&a -> IRQ -> ()})))
+    ( ; Returns true if this IRQ handler handles the given IRQ number
+      (handles? {&a -> IRQ -> bool})
+      ; Ends the given IRQ if this handler handles it, otherwise, no-op.
+      (end-irq  {&a -> IRQ -> ()})))
 
+; Define an individual PIC as an instance of the IRQHandler typeclass
 (instance (IRQHandler PIC)
+
     ; Returns true if this PIC handles the given IRQ
     ; (i.e. if the IRQ is within the range between the PIC's
     ; (base offset and the PIC's base offset plus 8))
@@ -69,20 +94,29 @@
             irq >= base and irq < max
         })))
 
+    ; If this PIC handles the specified IRQ number, send it the
+    ; End Interrupt command.
     (defn end-irq {&PIC -> IRQ -> ()}
         ((end-irq self _) (send-command self Command.EndIRQ)))
 )
 
+; Define both PICs chained together as an instance of the IRQ handler typeclass
 (instance (IRQHandler BothPICs)
 
+    ; If either of the chained PICs handles the given interrupt, then
+    ; both PICs handles that interrupt.
     (defn handles? {&BothPICs -> IRQ -> bool}
         ((handles? self irq) {
             { self.pic1 handles? irq } or { self.pic2 handles? irq }
         })))
 
+    ; End an interrupt if it is handled by either PIC.
     (defn end-irq {&BothPICs -> IRQ -> ()}
         ((end-irq self irq)
+            ; If PIC2 handles the interrupt, send it the End Interrupt command.
             ((if { self.pic2 handles? irq }
                  { self.pic2 end-irq irq} )
+            ; Always send that command to PIC1, since it handles all of its own
+            ; interrupts and all of PIC2's interrupts
               { self.pic1 end-irq irq } )))
 )
