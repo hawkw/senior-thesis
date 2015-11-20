@@ -142,15 +142,29 @@ programming today is done in C~\cite{Shapiro:2006:PLC:1215995.1216004,hawblitzel
 \end{minted}
 \end{frame}
 
+\begin{frame}
+\alert{\huge{Mnemosyne Syntax}}\\
+\large{Syntactic sugar}\normalsize
+\begin{itemize}
+    \item Inspired by Scheme RFI 110~\cite{wheeler2006sweet}
+    \item Always reduceable to homoiconic S-expressions
+    \begin{itemize}
+        \item Indentation-delimited expressions (I-expressions)
+        \item Curly-infix expressions (C-expressions)
+        \item Neoteric expressions (N-expressions)
+    \end{itemize}
+\end{itemize}
+\end{frame}
+
 \begin{frame}[fragile]
 \alert{\huge{Mnemosyne Syntax}}\\
-\large{The same example, using syntactic sugar.}\normalsize
+\large{Syntactic sugar}\normalsize
 \begin{minted}{clojure}
-def factorial (fn { int -> int }
+defn factorial { int -> int }
     (factorial 0) 1
     (factorial n) {
         n * factorial({n - 1})
-    })
+    }
 \end{minted}
 \end{frame}
 
