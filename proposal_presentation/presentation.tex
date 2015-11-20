@@ -62,15 +62,24 @@
 \alert{\huge{What is Mnemosyne?}}\\
 \large{\alert{A functional language} for systems programming, with compile-time automatic memory~management.} \normalsize
 \begin{itemize}
-\item
-\textbf{Mnemosyne is inspired by:}
-    \begin{itemize}
-        \item\textbf{Lisp}'s syntax and homoiconicity~\cite{vanderhart2010macros,sicp}.
-        \item\textbf{Haskell and ML}'s type system~\cite{jones2003haskell,hudak1992gentle,hudak1992report} and pattern matching~\cite{jones2003haskell,maranget2007warnings,Krishnaswami:2009:FPM:1594834.1480927,hudak1992report}
-        \item\textbf{Rust}'s memory management~\cite{whyrust,whyrust}
-    \end{itemize}
-
+\item Mnemosyne features:
+\begin{itemize}
+\item\textbf{Homoiconic syntax} like Lisp~\cite{vanderhart2010macros,sicp}.
+\item\textbf{Strong, static types} like Haskell~\cite{jones2003haskell,hudak1992gentle,hudak1992report}
+\item\textbf{Pattern matching} like Haskell and MLs~\cite{jones2003haskell,maranget2007warnings,Krishnaswami:2009:FPM:1594834.1480927,hudak1992report,odersky2004scala}
+\item\textbf{Compile-time memory management} like Rust's~\cite{whyrust,whyrust}
+\item\textbf{Eager and lazy evaluation} at the programmer's discretion
 \end{itemize}
+\end{itemize}
+% \textbf{Mnemosyne is inspired by:}
+%     \begin{itemize}
+%         \item\textbf{Lisp}'s syntax and homoiconicity~\cite{vanderhart2010macros,sicp}.
+%         \item\textbf{Haskell and ML}'s type system~\cite{jones2003haskell,hudak1992gentle,hudak1992report} and pattern matching~\cite{jones2003haskell,maranget2007warnings,Krishnaswami:2009:FPM:1594834.1480927,hudak1992report}
+%         \item\textbf{Rust}'s memory management~\cite{whyrust,whyrust}
+%     \end{itemize}
+%
+% \end{itemize}
+
 \end{frame}
 
 \begin{frame}
@@ -167,6 +176,16 @@ defn factorial { int -> int }
     }
 \end{minted}
 \end{frame}
+
+% \begin{frame}
+% \alert{\huge{Mnemosyne Semantics}}\\\normalsize
+% \begin{itemize}
+%     \item\textbf{Strong, static types}~\cite{Mitchell:2003:TT:1074100.1074885,}
+%     \item\textbf{Eager evaluation} by default
+%     \item\textbf{Purity is not enforced}, though an effects system~\cite{Marino:2009:GTS:1481861.1481868} is planned
+%     \item\textbf{Zero-cost abstractions}
+% \end{itemize}
+% \end{frame}
 
 \begin{frame}
 \alert{\huge{Methods}}\\
