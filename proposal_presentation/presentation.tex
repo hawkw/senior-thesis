@@ -125,7 +125,7 @@ programming today is done in C~\cite{Shapiro:2006:PLC:1215995.1216004,hawblitzel
     \item \textbf{How?}
     \begin{itemize}
     \item<2-> Stack allocation~\cite{Hanson:1990:ESA:91556.91603,Corry:2006:OSA:1133956.1133978,Matsakis:2014:RL:2663171.2663188}
-    \item<2-> Ownership analysis~\cite{Matsakis:2014:RL:2663171.2663188}
+    \item<2-> Lending and ownership analysis~\cite{Matsakis:2014:RL:2663171.2663188}
     \item<2-> Controlled mutability~\cite{Matsakis:2014:RL:2663171.2663188}
 \end{itemize}
 \end{itemize}
@@ -133,7 +133,7 @@ programming today is done in C~\cite{Shapiro:2006:PLC:1215995.1216004,hawblitzel
 
 \begin{frame}[fragile]
 \alert{\huge{Mnemosyne Syntax}}\\
-\large{A brief example:}\normalsize
+\large{Calculating factorials}\normalsize
 \begin{minted}{clojure}
 (def factorial (fn ( -> int int )
     ((factorial 0) 1)
@@ -144,7 +144,7 @@ programming today is done in C~\cite{Shapiro:2006:PLC:1215995.1216004,hawblitzel
 
 \begin{frame}[fragile]
 \alert{\huge{Mnemosyne Syntax}}\\
-\large{Using syntactic sugar...}\normalsize
+\large{The same example, using syntactic sugar.}\normalsize
 \begin{minted}{clojure}
 def factorial (fn { int -> int }
     (factorial 0) 1
