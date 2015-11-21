@@ -7,15 +7,24 @@
 
 \chapter{Introduction}\label{ch:intro} % we can refer to chapter by the label
 
+\epigraph{ For last year's words belong to last year's language \\
+           And next year's words await another voice. }%
+         { \textit{Four Quartets} \\ \textsc{T.S. Eliot} }
+
 The design and implementation of programming languages has been a major area of study for most of the history of computer science as a discipline. Since only a small fraction of software is implemented in assembly language, it seems reasonable to surmise that the quality of programming languages has a major impact on the quality of software in general. While many have observed that a great programmer can write good code even in a bad language\footnote{And inversely, that a terrible programmer can write bad code even in a good language}, we should note that individuals with such wizardly skill\footnote{Or frightening incompetence} likely fall far outside of the bell curve distribution of programmer ability. For a majority of software developers, programming languages likely have at least some impact on software quality.
 
-\textit{Systems programming} refers to the implementation of operating systems, device drivers, programming language standard libraries and runtime systems, and other types of software that provide services to other software rather than to the user~\cite{Narten:2003:SP:1074100.1074850,Shapiro:2006:PLC:1215995.1216004}. This is in contrast to \textit{application programming}, which is concerned with the implementation of application software, software with which the user interacts with directly or uses to accomplish a task or activity.
+Given this observation, the programming languages community has, in recent years, produced a number of new programming languages, such as Haskell~\cite{jones2003haskell,hudak1992report}, Scala~\cite{odersky2004scala,odersky2004overview}, and others. These languages boast a number of qualities that support the fast and easy implementation of high-quality software, such as more expressive syntax and typing disciplines that uncover errors at compile-time. However, while the developers of application software have benefited significantly from recent advances in programming languages, the languages used in systems programming have changed little since the 1970s.
 
 \begin{defn}[Systems Programming]
 The branch of programming concerned with the implementation of operating systems, utilities, and libraries that provides services to other software rather than to a human user~\cite{Narten:2003:SP:1074100.1074850}.
 \end{defn}
 
-The programming languages community has, in recent years, produced a number of new programming languages, such as Haskell~\cite{jones2003haskell,hudak1992report}, Scala~\cite{odersky2004scala,odersky2004overview}, and others. These languages boast a number of qualities that support the fast and easy implementation of high-quality software, such as more expressive syntax and typing disciplines that uncover errors at compile-time. However, while the developers of application software have benefited significantly from recent advances in programming languages, the languages used in systems programming have changed little since the 1970s.
+\textit{Systems programming} refers to the implementation of operating systems, device drivers, programming language standard libraries and runtime systems, and other types of software that provide services to other software rather than to the user~\cite{Narten:2003:SP:1074100.1074850,Shapiro:2006:PLC:1215995.1216004}. This is in contrast to \textit{application programming}, which is concerned with the implementation of application software, software with which the user interacts with directly or uses to accomplish a task or activity.
+
+
+\epigraph{ C makes it easy to shoot yourself in the foot. }%
+         { \textsc{Programmer's aphorism} }
+
 
 The \textit{lingua franca} of systems programming is the C programming language~\cite{kernighan1988c}, which first appeared in 1972. While there have been revisions to the C standard in recent years~\cite{C11,C99} and new C compilers, such as \texttt{clang}~\cite{lattner2008llvm}, have been developed, C has changed very little since its creation. C is plagued by safety issues and can be very difficult to program in, especially for novice programmers or those unfamiliar with its challenges~\cite{Shapiro:2006:PLC:1215995.1216004,Ray:2014:LSS:2635868.2635922,Bhattacharya:2011:APL:1985793.1985817}.
 
