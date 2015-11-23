@@ -21,16 +21,15 @@ The branch of programming concerned with the implementation of operating systems
 
 \textit{Systems programming} refers to the implementation of operating systems, device drivers, programming language standard libraries and runtime systems, and other types of software that provide services to other software rather than to the user~\cite{Narten:2003:SP:1074100.1074850,Shapiro:2006:PLC:1215995.1216004}. This is in contrast to \textit{application programming}, which is concerned with the implementation of application software, software with which the user interacts with directly or uses to accomplish a task or activity.
 
-
-\epigraph{ C makes it easy to shoot yourself in the foot. }%
-         { \textsc{Programmer's aphorism} }
-
-
 The \textit{lingua franca} of systems programming is the C programming language~\cite{kernighan1988c}, which first appeared in 1972. While there have been revisions to the C standard in recent years~\cite{C11,C99} and new C compilers, such as \texttt{clang}~\cite{lattner2008llvm}, have been developed, C has changed very little since its creation. C is plagued by safety issues and can be very difficult to program in, especially for novice programmers or those unfamiliar with its challenges~\cite{Shapiro:2006:PLC:1215995.1216004,Ray:2014:LSS:2635868.2635922,Bhattacharya:2011:APL:1985793.1985817}.
 
 Why, then, do systems programmers, who work in an area where safety and correctness is often vital, use such an old and difficult language almost exclusively? There are a number of reasons behind the systems programmer's hesitation to try more modern languages. Despite the rapid, ongoing increase in the capabilities of computing hardware, performance and efficiency in both time and space are still deeply important in systems code, as small drops in performance can have major impacts on the application software that relies on a system program~\cite{Shapiro:2006:PLC:1215995.1216004}. Applications programmers can often benefit from the use of slightly less efficient abstractions and structures if they compose well and are easily understood, but systems programmers have no such luxury.
 
+Many modern programming languages exhibit characteristics not suitable for systems programming. Many require a heavyweight runtime environment, running in a virtual machine or interpreter, making them insufficiently ``close to the machine''. They may provide abstractions and semantics that are convenient for the programmer but which make the low-level control necessary for many systems tasks impossible. When faced with the tradeoff between programmer convenience and low-level access to the computer's hardware, the designers of these languages tend, not unreasonably, to choose the latter. While this choice has benefitted the implementors of computer applications greatly, it has also left systems programmers stuck with the relics of computing's past.
 
+A particularly major issue, discussed in greater detail in ~\Cref{sec:gc}, is that a vast majority of these languages manage memory automatically through garbage collection~\cite{Bartley:2003:GC:1074100.1074419,Dijkstra:1978:OGC:359642.359655}. While garbage collection means that programmers no longer have to worry about managing memory allocation and deallocation, it also means that this work must be performed at runtime. This interrupts the program's execution –– often unsuitable for systems software -- and requires runtime support from the garbage collection software~\cite{Bartley:2003:GC:1074100.1074419,Hertz:2005:QPG:1094811.1094836,Dijkstra:1978:OGC:359642.359655}.
+
+Mnemosyne\footnote{Named for the Titaness who personified the concept of memory in Greek myth.} is a new programming language intended for systems programming. Mnemosyne is intended to reconcile the requirements of low-level systems implementation with the safety, expressive power, and elegance of modern functional programming languages.
 %
 % %   ************************************************************************
 % %   * In LaTeX, new paragraphs are begun by simply leaving a blank line in *
