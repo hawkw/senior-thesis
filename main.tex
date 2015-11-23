@@ -332,7 +332,13 @@
     \begingroup
     \setlength{\emergencystretch}{1em} % fixes overfull hboxes in citations
                                        % (according to the interwebs)
-    \printbibliography
+    \defbibnote{bibepigraph}{
+        \epigraph{ If I have seen further, it is by standing
+                   on the shoulders of giants. }%
+                 { Letter to Robert Hooke, 1676 \\
+                   \textsc{Sir Isaac Newton} }
+    }
+    \printbibliography[prenote = bibepigraph]
     \endgroup
 \end{spacing}
 
