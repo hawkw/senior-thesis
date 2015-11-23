@@ -6,7 +6,7 @@
 %   *******************************************************************
 
 \chapter{The Mnemosyne Programming Language: An Abridged Description}\label{app:spec}
-
+\section{Introduction}
 \epigraph{ I really do not know that anything has ever been more
            exciting than diagramming sentences. }%
          { \textit{Lectures in America} \\ \textsc{Gertrude Stein} }
@@ -119,6 +119,7 @@ Mnemosyne \textit{expressions} form the basic building block from which all Mnem
             \alt <deref expr> | <unwrap expr> | <pointer expr>
             \alt <literal>
 
+
     <s-expr> $\to$ `(' <operator>  <expr>* `)'
 
     <c-expr> $\to$ `{' <expr> <operator> <c-expr body>+ `}'
@@ -131,6 +132,11 @@ Mnemosyne \textit{expressions} form the basic building block from which all Mnem
               \alt <access> `.' <n-expr>
 
     <access> $\to$ <deref-expr> | <identifier>
+
+\end{grammar}
+
+\subsection{Dereference and Unwrapping Expressions}
+\begin{grammar}
 
     <deref expr> $\to$ `(' \lit{\$} <expr> `)'
                   \alt \lit{\$} <expr>
@@ -145,7 +151,7 @@ Mnemosyne \textit{expressions} form the basic building block from which all Mnem
     <pointer sigil> $\to$ `&' | `@' | `*'
 \end{grammar}
 
-\subsection{Program Structure}
+\subsection{Modules}
 
 \begin{grammar}
 <program> $\to$ <module>+
