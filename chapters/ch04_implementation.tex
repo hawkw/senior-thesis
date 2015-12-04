@@ -6,6 +6,16 @@
 %   *******************************************************************
 %
 \chapter{Implementation}\label{ch:implem}
+The Mnemosyne compiler, called \texttt{mn}\footnote{Pronounced ``Manganese''.} operates in three primary phases:
+
+\begin{itemize}
+\item \textbf{Semantic analysis} converts the program source code to a representation understandable by the compiler and detects syntax errors
+\item \textbf{Semantic analysis} attempts to prove statements about the program's execution, such as determining the types of values and reducing expressions to constants, and detects semantic errors
+\item \textbf{Code generation} converts the internal representation of the program to LLVM intermediate representation (IR) and then to the desired output binary format.
+\end{itemize}
+
 \section{Parsing and Syntactic Analysis}\label{sec:parsing}
+The Mnemosyne parser is implemented using technique called \textit{combinator parsing}.
+
 \section{Semantic Analysis}\label{sec:analysis}
 \section{Code Generation}\label{sec:codegen}
