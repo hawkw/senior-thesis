@@ -13,9 +13,9 @@
           \textsc{Alan Perlis}}
 
 
-\section{Design Goals} \label{sec:designgoals}
+\section{Design Goals} \label{sec:goals}
 
-% As is true for all software systems, it is generally agreed that
+As is true for all software systems, when implementing a new programming language,
 
 The following characteristics are major design goals for Mnemosyne:
 \begin{enumerate}
@@ -25,6 +25,14 @@ The following characteristics are major design goals for Mnemosyne:
     \item Support for quality programming
     \item Expressiveness
 \end{enumerate}
+
+\paragraph{Support for systems programming}
+
+As Mnemosyne is intended as a language for systems programming, it stands to reason that the first object of consideration in all our design choices is to ensure that the language is suitable for this purpose. Thus, we might wonder, what characteristics or traits of a language make it suitable for systems programming?
+
+There are some low-hanging fruit here, some language characteristics that seem immediately obvious. Of course, a systems language must be compiled rather than interpreted; many systems programs must run with little or no runtime support from other software, so an interpreter or just-in-time compiler is out of the question.
+
+In \citetitle{Shapiro:2006:PLC:1215995.1216004}, \citeauthor{Shapiro:2006:PLC:1215995.1216004} enumerates quite well a number of important qualities of systems software. Shapiro observes that performance, and thus data representation, are very important in systems programs, and that bulk input and output has a large impact on the performance of such software. He states that systems programs often ``operate in constrained memory'', which he observes to have ``unpleasant'' implications for garbage collection.~\cite[pp. 2]{Shapiro:2006:PLC:1215995.1216004} Finally, he also points out that systems programs retain a great deal of state over the course of their execution, which ``penalizes the performance of automatic storage reclamation strategies\footnote{\emph{Viz.} garbage collection}''~\cite[pp. 2]{Shapiro:2006:PLC:1215995.1216004}, as well as rendering unworkable the enforced purity or statelessness of functional languages such as Haskell.
 
 \paragraph{Expressiveness}
 
