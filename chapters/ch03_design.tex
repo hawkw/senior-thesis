@@ -15,6 +15,8 @@
 
 \section{Design Goals} \label{sec:designgoals}
 
+% As is true for all software systems, it is generally agreed that
+
 The following characteristics are major design goals for Mnemosyne:
 \begin{enumerate}
     \item Support for systems programming
@@ -28,7 +30,7 @@ The following characteristics are major design goals for Mnemosyne:
 
 Formally, the \textit{expressiveness} (or \textit{expressive power}) refers to the size of the set of all ideas or concepts capable of being communicated by a language. As a general-purpose programming language, Mnemosyne is intended to be Turing-complete; meaning that theoretically, all possible computations can be expressed in Mnemosyne.
 
-In the context of general-purpose, Turing-complete languages, this term is more foten used to refer to the \emph{ease} with which complex concepts can be expressed: a more expressive language is one wherein a complex idea requires less code. We could, then, perhaps informally define this kind of expressiveness as a ratio of things accomplished to lines of code. While this definition does not provide us with a measurable metric --- ``things accomplished'' is a bit too nebulous -- it neatly summarizes the idea that we should like for programmers to be able to accomplish a great deal in as few lines of code as possible.
+In the context of general-purpose, Turing-complete languages, this term is more often used to refer to the \emph{ease} with which complex concepts can be expressed: a more expressive language is one wherein a complex idea requires less code. We could, then, perhaps informally define this kind of expressiveness as a ratio of things accomplished to lines of code. While this definition does not provide us with a measurable metric --- ``things accomplished'' is a bit too nebulous -- it neatly summarizes the idea that we should like for programmers to be able to accomplish a great deal in as few lines of code as possible.
 
 \section{Characteristics} \label{sec:characteristics}
 
@@ -36,9 +38,9 @@ Programming languages may be categorized along a number of axes: whether it is c
 
 Mnemosyne is a \textit{statically-typed} programming language, meaning that the analysis of the types of language constructs, such as variables and expressions, are known to the compiler at compile-time. This is in contrast to \textit{dynamically-typed} languages, such as a majority of the Lisp family, in which types are determined at runtime~\cite{Mitchell:2003:TT:1074100.1074885}.
 
-A major advantage of static typing lies in its increased reliability. If we suppose that some operations are not supported on all types, and that attempting these operations on types which are not capable of carrying them out results in an error, as is the case in almost all programming languages, then such \textit{type errors} are a cadegory of potential error which may occur in our programs. In a statically-typed language, the compiler has the capacity to reason about types, and thus these type errors can be detected at compile-time; while in a dynamically typed language, type errors will occur during the program's execution. Moving the detection of an entire category of errors from runtime to compile-time is a major boon to the language's reliability and safety~\cite{Mitchell:2003:TT:1074100.1074885,Mayer:2012:ESI:2398857.2384666}.
+A major advantage of static typing lies in its increased reliability. If we suppose that some operations are not supported on all types, and that attempting these operations on types which are not capable of carrying them out results in an error, as is the case in almost all programming languages, then such \textit{type errors} are a category of potential error which may occur in our programs. In a statically-typed language, the compiler has the capacity to reason about types, and thus these type errors can be detected at compile-time; while in a dynamically typed language, type errors will occur during the program's execution. Moving the detection of an entire category of errors from runtime to compile-time is a major boon to the language's reliability and safety~\cite{Mitchell:2003:TT:1074100.1074885,Mayer:2012:ESI:2398857.2384666}.
 
-Furthermore, many programming languages use their type systems to encode other potential categories of errors in their type systems. The use of types in this manner can be used to detect security issues~\cite{Skalka:2000:SES:357766.351244} and concurrency defects~\cite{Sagonas:2010:USA:2175429.2175432} statically (i.e. at compile-time), rather than allowing these errors to remain undetected in software deployed into production.
+Furthermore, many programming languages use their type systems to encode other potential categories of errors in their type systems. The use of types in this manner can be used to detect security issues~\cite{Skalka:2000:SES:357766.351244} and concurrency defects~\cite{Sagonas:2010:USA:2175429.2175432} statically (i.e., at compile-time), rather than allowing these errors to remain undetected in software deployed into production.
 
 Additionally, giving the compiler the capacity to reason about types permits us to perform a number of optimizations that are not possible in dynamically-typed languages.
 
