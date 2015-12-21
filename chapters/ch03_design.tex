@@ -15,14 +15,13 @@
 
 \section{Design Goals} \label{sec:goals}
 
-As is true for all software systems, when implementing a new programming language,
+As is true for all software systems, when implementing a new programming language, it is generally advantageous to identify a set of primary goals before beginning the implementation process.
 
 The following characteristics are major design goals for Mnemosyne:
 \begin{enumerate}
     \item Support for systems programming
     \item Safety
     \item Performance
-    \item Support for quality programming
     \item Expressiveness
 \end{enumerate}
 
@@ -42,12 +41,25 @@ In addition to eschewing the use of garbage collection, we must provide programm
 
 Secondary only to our desire to support low-level systems programming, we should strive to ensure that Mnemosyne provides programmers with the tools to write code that is as safe as possible. At first blush, our first and second goals seem natural enemies --- by allowing programmers a way out of language abstractions or providing unrestricted access to hardware, we are allowing new classes of errors and making our programs less safe. However, with thought, we can find ways to reconcile these competing needs.
 
+\citeauthor{Frampton:2009:DMH:1508293.1508305} discuss the importance of what they call ``containment'': the idea that safe code should not be tainted by the unsafe operations sometimes sadly necessary for systems-level code, as discussed in the previous paragraph. Mechanisms of containment, according to \citeauthor{Frampton:2009:DMH:1508293.1508305}, work to ``minimiz[e] the reach of unsafe operations and maximiz[e] the scope of untainted high-level code''~\cite{Frampton:2009:DMH:1508293.1508305}. The Rust programming language employs an approach similar to that discussed by \citeauthor{Frampton:2009:DMH:1508293.1508305}: certain operations which the compiler cannot reason about but are nonetheless sometimes necessary are designated as `unsafe', and may only be used within functions and blocks of code designated as unsafe by the programmer. These unsafe operations include dereferencing raw pointers\footnote{Those which are not part of Rust's lifetime-analysis system.}, a violation of the language's memory-management system; non-scalar casts\footnote{Called `transmutation'.}, which violate the type system, and the use of any other function designated as unsafe by its implementor~\cite{Matsakis:2014:RL:2663171.2663188, whyrust}. If issues arising from the use of such unsafe operations occur, they are thus confined to those code regions designated as unsafe, making the task of finding the source of these issues much easier.
+
+Memory safety is a major issue in C and other languages which employ manual memory management. Manual memory management results in a number of error categories, such as dangling pointers, buffer overflows, and null pointer derefences, that manifest themselves frequently in programs written in languages without garbage collection~\cite{Shapiro:2006:PLC:1215995.1216004,Ray:2014:LSS:2635868.2635922,Bhattacharya:2011:APL:1985793.1985817,hawblitzel2004low}. Mnemosyne's automatic compile-time memory management eliminates these errors, providing the same safety advantages as garbage collection without rendering the language useless for systems software.
+
+\paragraph{Performance}
+
+The performance of a programming language is primarily a result of how programs written in that language are executed; that is to say, the compiler or interpreter. As stated in \Cref{sec:characteristics}, Mnemosyne is a compiled language rather than an interpreted language, and compiled languages almost universally offer better performance than interpreted ones. However, we must take care to ensure that the compiler outputs high-performance binaries.
+
+LLVM, the compiler backend used by Mnemosyne, has been noted for its performance~\cite{lattner2008llvm,Lattner:2004:LCF:977395.977673,Terei:2010:LBG:1863523.1863538}. LLVM is capable of performing a number of optimizations on its internal intermediate representation while generating output binaries, and Mnemosyne programs will benefit from these optimizations in addition to those performed by the compiler at earlier stages in the compilation process.
+
+Furthermore, performance can be improved by providing \textit{zero-cost abstractions}. Zero-cost abstractions are those which do not incur an additional performance cost, either in time or in space, at runtime. Essentially, thse are abstractions which are erased by the compiler as part of the compilation process rather than impacting the output binaries of a program. By focusing on abstractions that are zero-cost when designing our language semantics and standard library, we can improve performance while still providing programmers with an expressive set of tools for writing elegant, reusable, and concise code.
 
 \paragraph{Expressiveness}
 
 Formally, the \textit{expressiveness} (or \textit{expressive power}) refers to the size of the set of all ideas or concepts capable of being communicated by a language. As a general-purpose programming language, Mnemosyne is intended to be Turing-complete; meaning that theoretically, all possible computations can be expressed in Mnemosyne.
 
 In the context of general-purpose, Turing-complete languages, this term is more often used to refer to the \emph{ease} with which complex concepts can be expressed: a more expressive language is one wherein a complex idea requires less code. We could, then, perhaps informally define this kind of expressiveness as a ratio of things accomplished to lines of code. While this definition does not provide us with a measurable metric --- ``things accomplished'' is a bit too nebulous -- it neatly summarizes the idea that we should like for programmers to be able to accomplish a great deal in as few lines of code as possible.
+
+Ensuring that Mnemosyne is as expressive as possible primarily involves the design of the language's syntax, as discussed in \Cref{sec:syntax}. The S-expression notation used for Mnemoysne programs has been noted for its expressiveness~\cite{sicp,raymond2003become}. Standard library design also influences a language's expressiveness; by providing powerful abstractions in the standard library, we can eliminate `boilerplate' code and permit our programmers to do more with less.
 
 \section{Characteristics} \label{sec:characteristics}
 
@@ -57,11 +69,91 @@ Mnemosyne is a \textit{statically-typed} programming language, meaning that the 
 
 A major advantage of static typing lies in its increased reliability. If we suppose that some operations are not supported on all types, and that attempting these operations on types which are not capable of carrying them out results in an error, as is the case in almost all programming languages, then such \textit{type errors} are a category of potential error which may occur in our programs. In a statically-typed language, the compiler has the capacity to reason about types, and thus these type errors can be detected at compile-time; while in a dynamically typed language, type errors will occur during the program's execution. Moving the detection of an entire category of errors from runtime to compile-time is a major boon to the language's reliability and safety~\cite{Mitchell:2003:TT:1074100.1074885,Mayer:2012:ESI:2398857.2384666}.
 
-Furthermore, many programming languages use their type systems to encode other potential categories of errors in their type systems. The use of types in this manner can be used to detect security issues~\cite{Skalka:2000:SES:357766.351244} and concurrency defects~\cite{Sagonas:2010:USA:2175429.2175432} statically (i.e., at compile-time), rather than allowing these errors to remain undetected in software deployed into production.
-
-Additionally, giving the compiler the capacity to reason about types permits us to perform a number of optimizations that are not possible in dynamically-typed languages.
+Furthermore, many programming languages use their type systems to encode other potential categories of errors in their type systems. The use of types in this manner can be used to detect security issues~\cite{Skalka:2000:SES:357766.351244} and concurrency defects~\cite{Sagonas:2010:USA:2175429.2175432} statically (i.e., at compile-time), rather than allowing these errors to remain undetected in software deployed into production. Additionally, giving the compiler the capacity to reason about types permits us to perform a number of optimizations that are not possible in dynamically-typed languages.
 
 In contrast, dynamic typing has frequently been observed to make writing amd modifying code less time-consuming~\cite{Mayer:2012:ESI:2398857.2384666,}. This quality is generally very useful for scripting languages, rapid prototyping, and educational programming languages. These domains lie outside of Mnemosyne's primary design goals, and dynamic typing is generally unsuitable for systems programming.
+
+Mnemosyne is intended to support programming in the \textit{functional} paradigm.
+
+\begin{defn}[Functional Programming]
+A programming paradigm which models computation through the application of functions, or in which function application is the primary or the only control structure~\cite{Wise:2003:FP:1074100.1074416,hughes1989functional}.
+\end{defn}
+
+Functional programming models the execution of a program as the evalaution of a series of functions. This paradigm of programming has been observed to be very expressive and to encourage safe programming practices, primarily based on the control of side effects~\cite{hughes1989functional,hudak1994haskell}. Furthermore, functional programming has also been noted to enable highly modular architectural and design practices, resulting in software that is easier to test and code that can be reused often~\cite{hughes1989functional,hudak1994haskell}.
+
+\section{Syntax}\label{sec:syntax}
+
+The \textit{syntax} of a programming language refers to its lexical and grammatical stucture; the combinations of characters and strings that make up valid programs in that language.~\cite{Hemmendinger:2003:SSP:1074100.1074848} Due to the obvious impact of these considerations on the programs written in a language, the syntactical design of a programming langauge must be approached with some care. While \cref{app:spec} furnishes a formal description of the Mnemosyne grammar, this section discusses the rationale behind the design decisions of the language's syntax.
+
+Mnemosyne borrows the \textit{S-expression}-based syntax of the Lisp family of languages.
+
+\begin{defn}[S-expression]
+A notation for describing nested list data structures, where each list is delimited by parenthesis characters and each list element is separated by spaces.
+\end{defn}
+
+S-expression syntax has a number of advantages. Perhaps the most important property of S-expressionsis that of \textit{homoiconicity}, the quality by which the textual structure of a program's source code is identical to the computer's internal representation of that program~\cite{vanderhart2010macros,sicp}. In Mnemosyne, as in Lisp, all language constructs take the same consistent form of the \textit{S-expression}, a parenthesized expression consisting of an operator and one or more operands, separated by spaces.
+
+For example, to sum two numbers, one would state:
+\FloatBarrier
+\begin{centered}
+% \begin{listing}[H]
+    % \centering
+    \mint{lisp}|(+ 1 1)|
+% \end{listing}
+\end{centered}
+\FloatBarrier
+More complex concepts may be expressed just as easily with these S-expressions. Consider a conditional logic expression:
+\FloatBarrier
+% \begin{listing}[H]
+    % \centering
+% \end{listing}
+    \begin{centered}
+\begin{minted}{lisp}
+(if (> a 0)
+  (+ a 1)
+  (- a 1)
+)
+\end{minted}
+\end{centered}
+\FloatBarrier
+This expression evaluates to the value of \mintinline{lisp}|a| + 1 if variable \mintinline{lisp}|a| is greater than zero, and \mintinline{lisp}|a| - 1 if it is not.
+
+In contrast to C and languages with C-like syntax, Lisps are \textit{expression languages} rather than \textit{statement languages}. Where C-like languages consist of both statements, which correspond to an executable action, and expressions, which evaluate to some value, Lisp programs consist only of expressions. Thus, Alan Perlis' sardonic observation that ``[a] LISP programmer knows the value of everything, but the cost of nothing~\cite{Perlis:1982:SFE:947955.1083808}.''
+
+In addition to assisting programmers in understanding the compiler or interpreter's understanding of their code (through the concept of homoiconicity), the consistency of the syntax of S-expression based languages makes parsing fairly simple. Ease of parsing is of great advantage to the implementation of proof-of-concept or research programming languages, as developing a parser is a significant portion of the workload of compiler implementation.
+
+Despite its S-expression-based syntax, Mnemosyne is not technically a member of the Lisp family. In addition to the use of S-expressions, Lisps are generally characterized as being dynamically-typed interpreted languages. Since a primary goal of the new language's design is to perform memory management at compile-time, it would therefore have to be a compiled language. Furthermore, in order to permit reasoning about memory at compile-time, a change in typing discipline is also necessary, since the type of a value determines the amount of space that it occupies in memory.
+
+Also unlike other Lisps, functions and anonymous functions in Mnemosyne are defined using \textit{pattern matching}, similar to the Haskell programming language~\cite{jones2003haskell,hudak1992gentle,hudak1992report}. Pattern matching is a syntactic construct common to functional programming languages such as Haskell~\cite{jones2003haskell,hudak1992report,hudak1992gentle}, Scala~\cite{odersky2004scala,odersky2004overview}, and ML~\cite{maranget2008compiling,Krishnaswami:2009:FPM:1594834.1480927}. In pattern matching, an expression or value is tested against a series of pattern expressions, which can test equality for constant values, test subtype relationships, and destructure algebraic data types. The compiler converts these match expressions to decision trees in the resultant program binary, resulting in a high performance and expressive method of program flow control~\cite{maranget2007warnings,Krishnaswami:2009:FPM:1594834.1480927,syme2007extensible,maranget2008compiling} In this approach to function definition, a function or lambda is defined by one or more \textit{equations}, consisting of a pattern expression and a function body. The inputs to the function are matched against each pattern expression until a match is found. Any variables present in the pattern expression are then bound to the appropriate arguments, and the corresponding function body for that equation is then evaluated and returned~\cite{jones2003haskell,hudak1992report}.
+
+Function definition through pattern matching was chosen for Mnemosyne for a number of reasons. Primarily, it encourages programmers to consider functions as they are in mathematics: a mapping of input values to output values; and encourages the use of explicit base cases for recursive functions~\cite{hudak1992gentle}. Additionally, function definition through pattern matching permits the programmer to write functions with varying arities depending on the passed arguments, a useful tool in languages which provide automatic currying\footnote{As in Haskell.}, a feature planned for a future Mnemosyne release.
+
+Additionally, there would be a need to introduce syntax for working with pointer types. Lisps typically do not provide a great deal of functionality for performing operations such as pointer arithmetic. In a systems programming language, methods of working on memory addresses at a low level are necessary. Furthermore, depending on the memory management method employed, there may additionally be a need to differentiate between types of references, as in Rust, which distinguishes between pointers or references which are borrowed from another scope, those which were moved from another scope, and those which are owned by the scope in which they are referenced~\cite{Matsakis:2014:RL:2663171.2663188}.
+
+\subsubsection{Semantics}
+
+Since safe and efficient memory management is a major design goal, it is necessary to consider the memory semantics of Mnemosyne programs very thoughtfully. Thus, developing memory management methods for Mnemosyne will require additional research and development.
+
+Lisp and Lisp-like programming languages are in some ways uniquely well-suited to scope-based methods of managing memory; Scheme~\cite{r6rs} (a Lisp variant) was one of the first lexically-scoped programming languages, and the S-expression syntax of Lisps make scopes explicit to the programmer. A system for memory management based on compile-time analysis of scopes seems possible.
+
+The linear approach, as described by Baker~\cite{Baker:1992:LLL:142137.142162,Baker:1995:UVL:199818.199860} and \citeauthor{hawblitzel2004low}~\cite{hawblitzel2004low}, would be particularly simple to implement and embraces the functional programming philosophy of immutable data structures. However, a language based around immutability may be insufficiently low level to meet the needs of systems programmers, and the overhead of copying objects may be unacceptable in real-time programs such as an operating system kernel. A memory management model based on \textit{stack allocation} seems to find a happy medium between safety, performance, and `closeness to the machine'.
+
+\begin{defn}[Stack Allocation]
+A method of memory management in which all memory allocation created within a scope such as a function are automatically deallocated when the flow of program execution exits that scope~\cite{Corry:2006:OSA:1133956.1133978,Hanson:1990:ESA:91556.91603}.
+\end{defn}
+
+In \textit{stack allocation}, all memory objects are allocated on a stack, with each level in the stack (called a \textit{stack frame or \textit{allocation record}}) corresponding to a scope or execution context, such as a function. When a scope is exited, all of the memory objects allocated in that scope are automatically deallocated. This is how most languages allocate parameters to function calls. When this approach is applied to all memory allocation, it provides the same guaranteed memory safety as garbage collection, but requires significantly less work to be performed at runtime~\cite{Corry:2006:OSA:1133956.1133978,Hanson:1990:ESA:91556.91603}. However, allocating all data on the stack has the obvious flaw that there is no way to share data outside the stack frame in which it was created, placing significant constraints on the programmer and limiting the expressiveness of the language.
+
+In order to make such a language expressive enough to be useable, a Rust-like system of ownership and lending seems necessary. In Rust, a memory object is said to be `owned' by the scope in which it was allocated, placing it on that scope's stack frame. Rust then permits the owner of a memory object to either transfer ownership to another scope (called a `move') or to share `borrowed' references to that object. These borrowed pointers are lexically scoped, and may not be referenced after the object to which they point passes out of scope. Rust also differentiates between mutable and immutable borrows, permitting only one mutable borrow of an object at any point in time. This prevents issues related to concurrent modification. The Rust compiler includes a component called the \textit{borrow checker}, which performs analysis of borrowing and ownership at compile-time~\cite{Matsakis:2014:RL:2663171.2663188,whyrust}. This system provides Rust programs with guaranteed memory safety, but does not require programmers to manually allocate and deallocate objects. Essentially, the borrow checker moves the overhead of performing analysis for automatic memory management from runtime to compile-time, adding a step to the compilation process but allowing the resultant binaries to run without garbage collection.
+Previous research~\cite{sobalvarro1988lifetime} suggests that lifetime analysis for Lisp programs is certainly possible, lending credibility to the use of this approach in Mmenosyne.
+
+The name `Lisp' was originally an abbreviation for `LISt Processing', and the singly-linked list forms the core construct of all true Lisps. However, that data structure is oftentimes too high level for the needs of systems programmers. Therefore, robust syntax for working with arrays and algebraic data types must also be provided. Developing syntax to express the many new concepts introduced in the language in a manner that is unambiguous to the programmer and to the compiler, and that blends well with the S-expression syntax, may require some effort.
+
+An additional semantic consideration that improves program safety considerably is explicit differentiation between nullable and non-nullable references. In C and most C-derived programming languages, such as C++, C\#, and Java, there exists a special constant called \texttt{null}. Variables can be assigned to this constant in order to indicate that the value is unknown, such as when it has not yet been determined or is unavailable as the result of an error. However, when \texttt{null} is present in a program, it is necessary to check frequently whether or not a variable is \texttt{null}, as attempting to dereference a pointer to \texttt{null} will result in a run-time error. It has been observed that null reference errors of this form are among the most frequent faults in these languages~\cite{Duff:2009:GNC:1541788.1541792,Chalin:2007:NRD:2394758.2394776,Fahndrich:2003:DCN:949343.949332}, to the extent that the originator of the \texttt{null} reference, Sir C.A.R. Hoare, referred to it as his ``billion-dollar mistake''~\cite{hoare2009null}.
+
+An alternative to the \texttt{null} value, and the need for constant checking it implies, is the technique of encoding at the type level whether or not a value is nullable~\cite{Fahndrich:2003:DCN:949343.949332}. In this technique, the language provides a special container type for values which may not be present, and enforces that all other values not be nullable. This approach has the advantage that null reference errors can often be detected at compile time, allowing them to be resolved by the programmer rather than released into production software~\cite{Fahndrich:2003:DCN:949343.949332}. A number of popular functional programming languages provide such a type: Scala and Rust call it \texttt{Option}~\cite{odersky2004scala,odersky2004overview,Matsakis:2014:RL:2663171.2663188} while Haskell calls it \texttt{Maybe}~\cite{jones2003haskell,hudak1992gentle}. In order to avoid Tony Hoare's ``billion-dollar mistake'', Mnemosyne will follow their example. Special syntax may be provided for the \texttt{Optional} type, in order to make its use less challenging for programmers.
+
+
 % \section{Test Environment}
 % Algorithm \ref{widgmin} (from \cite{Fiori:2013}) shows a high-level description of an
 % algorithm. There are many options for the display of
@@ -102,7 +194,7 @@ In contrast, dynamic typing has frequently been observed to make writing amd mod
 % \label{widgmin}
 % \end{algorithm}
 
-\section{Experiments}
+% \section{Experiments}
 
 % Figure \ref{javaprog} shows a Java program. There are many, many options for
 % providing program listings; only a few of the basic ones are shown
@@ -130,4 +222,4 @@ In contrast, dynamic typing has frequently been observed to make writing amd mod
 % \label{javaprog}
 % \end{figure}
 
-\section{Threats to Validity}
+% \section{Threats to Validity}
